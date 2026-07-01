@@ -1,0 +1,5 @@
+# Obsidian – user/workspace-specific, don't commit
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache
+.trash/
