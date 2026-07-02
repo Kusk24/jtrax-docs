@@ -1,6 +1,7 @@
 # 0002 — Attendance check-in mechanism
 
-- **Status:** Proposed (brainstorm — needs team decision)
+- **Status:** Accepted (2026-07-03) — both paths confirmed: teacher manual marking + a
+  cross-platform (web **and** mobile) self check-in
 - **Date:** 2026-07-03
 
 ## Context
@@ -42,8 +43,12 @@ use a parent's phone, a school tablet, or no device at all.
   decrements credit, notifies parent ("Uri — Checked in Successfully").
 
 ## Consequences
-- The student UI's "verifying" step stays a black box until this ADR is Accepted; the
-  screens don't change regardless of the option picked (see
-  `architecture/web-app-student-frontend.md`).
-- Teacher portal must include: start/end session, rotating code display, live roster with
-  manual toggle — feeds the teacher-mockup work.
+- Student UI now implements the self check-in front half: a **class-code entry step**
+  (6-digit, numeric keyboard on mobile) with a **Scan QR Code** button — camera scanning
+  ships with the mobile build; on web the typed code is the primary path. Wrong code
+  shows an inline error; the mock accepts `attendanceSession.code` from
+  `lib/student-data.ts` (see `architecture/web-app-student-frontend.md`).
+- Teacher portal must include: start/end session, rotating QR + code display, live
+  roster with manual toggle — feeds the teacher-mockup work.
+- Backend must implement the session/HMAC model sketched above and emit the parent
+  notification on check-in.
