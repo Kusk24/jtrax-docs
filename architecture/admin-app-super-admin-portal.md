@@ -17,8 +17,18 @@
   6. `feature/super-admin-attendance` — attendance monitoring (grouped daily chart,
      history + session detail card, alerts with guardian notify), system settings,
      reports placeholder, chart rendering fix
-- **Status:** All pushed; `pnpm build` green (16 `/super/*` routes, all ƒ dynamic
-  due to the locale cookie)
+  7. `feature/branch-admin-portal` — branch admin portal: pages extracted into
+     `components/admin/pages/*` taking `base` + optional `branch: BranchId`;
+     `/super/*` and `/branch/*` are thin route wrappers. Branch admin = same UI
+     scoped to one branch (mocked to Bangkok until auth): nav drops Branch
+     Admins/Branches, topbar shows a fixed branch chip instead of the All-Branches
+     selector, dashboard loses the Total Branches KPI + branch-performance chart,
+     and every list (students, teachers via `branchIds`, payments, sections,
+     calendar events, attendance history, alerts) filters on `branchId`. Adding a
+     branch = one new entry in `branches[]` — records separate by ID, per the
+     member/branch database requirement.
+- **Status:** All pushed; `pnpm build` green (16 `/super/*` + 13 `/branch/*`
+  routes, all ƒ dynamic due to the locale cookie)
 
 ## Decisions
 - **Nav:** desktop = fixed 224px sidebar (icons + labels) at `lg`; below that a
