@@ -40,3 +40,5 @@ the backend exists (ADR 0002).
 ## Verification
 `next build` passes (24 routes). All 8 screens screenshotted at 390×844 via Playwright +
 system Chrome against the mockups; sticky Finish button re-verified after the fix.
+Desktop (1280×800) verified for home, manual check, summary, and profile — sidebar nav
+and max-width content render correctly (responsive-on-all-platforms rule).
