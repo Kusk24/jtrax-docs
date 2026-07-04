@@ -12,10 +12,14 @@
 - **Fonts:** `Patrick_Hand` for headings, **`Mali`** (Thai + Latin handwriting
   with real 400–700 weights) for body and all Thai text, via `next/font`
   variables `--font-hand-display` / `--font-hand-thai`.
-- **Paper:** cream → `#f1ede1`, card → `#faf7ee`; a fixed `body::after` overlay
-  with an inline-SVG `feTurbulence` noise (multiply, ~0.16 alpha) lays graphite
-  grain over *everything*, which makes flat fills and recharts charts read as
-  colored pencil.
+- **Paper + shading:** cream → `#f1ede1`, card → `#faf7ee`. Two fixed overlays
+  cover the viewport (multiply blend, pointer-events none): `body::before` draws
+  **directional cross-hatching** (two repeating-linear-gradients at 112°/64°)
+  plus four soft radial **graphite smudges** near the edges; `body::after` lays
+  `feTurbulence` paper-tooth grain. Together they make every flat fill and
+  recharts chart read as colored pencil. ⚠️ The SVG data-URI must be **fully
+  percent-encoded — literal spaces break it in production** (that's why the
+  first deploy looked flat).
 - **Lines:** `--color-line` → graphite `#978e7c`; ink/muted warmed to graphite
   grays; palette hues kept but softened one step.
 - **Wobble:** unlayered overrides give `.rounded-card/xl/2xl/3xl/full` uneven
