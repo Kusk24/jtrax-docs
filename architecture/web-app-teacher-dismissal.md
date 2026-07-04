@@ -38,4 +38,15 @@ closed (success screen linking home / to the summary).
 - Hardcoded `ID: …` labels in parent home/profile now use `common.idLabel`
 - `classStats` gained a `total` field (was borrowing `credits.total`)
 
-Merge order: thai-localization → teacher-dismissal → portal-consistency.
+## Ongoing tab (follow-up, `feature/ongoing-class-bar`)
+Dismissal was only reachable from the check-in flow; if the teacher navigated away
+there was no way back. The teacher nav now has a **5th tab "Ongoing" in the middle
+(3rd) slot** (bottom bar + sidebar, `DoorOpen` icon) with a red **badge counting
+ongoing classes** (`PortalTab.badgeCount`, hidden at 0). It opens
+`/teacher/ongoing`: each in-progress class as a card (time, location, X/Y dismissed,
+progress bar) linking to its dismissal page; cute empty state pointing to the
+schedule when nothing is running. Dismissal's back button now returns to this list.
+`ongoingSessions` helper in teacher-data filters `status === "ongoing"`.
+
+Merge order: thai-localization → teacher-dismissal → portal-consistency →
+ongoing-class-bar.
