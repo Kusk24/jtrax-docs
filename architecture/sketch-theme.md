@@ -12,14 +12,17 @@
 - **Fonts:** `Patrick_Hand` for headings, **`Mali`** (Thai + Latin handwriting
   with real 400–700 weights) for body and all Thai text, via `next/font`
   variables `--font-hand-display` / `--font-hand-thai`.
-- **Paper + shading:** cream → `#f1ede1`, card → `#faf7ee`. Two fixed overlays
-  cover the viewport (multiply blend, pointer-events none): `body::before` draws
-  **directional cross-hatching** (two repeating-linear-gradients at 112°/64°)
-  plus four soft radial **graphite smudges** near the edges; `body::after` lays
-  `feTurbulence` paper-tooth grain. Together they make every flat fill and
-  recharts chart read as colored pencil. ⚠️ The SVG data-URI must be **fully
-  percent-encoded — literal spaces break it in production** (that's why the
-  first deploy looked flat).
+- **Paper + shading (v2, per user feedback "no grid, real like the drawing"):**
+  near-white paper `#f6f5f0`, cards `#fcfbf7`, borders dark graphite `#5f5b52`,
+  hard-edged offset shadows (`2px 3px 0`, no blur). The full-canvas cross-hatch
+  weave was **removed** — overlays now carry only faint radial smudges +
+  very subtle `feTurbulence` grain (alpha ~0.1). Colored-pencil hatching moved
+  **inside the fills**: `[class*="bg-brick-soft"] / bg-peach / bg-olive-soft /
+  bg-navy-soft` get a −45° repeating-linear-gradient stripe (attribute selector
+  so opacity variants like `/70` match). `.bg-line` is pinned light so progress
+  tracks don't go dark. `nth-child(2n/3n)` radius variants keep boxes from
+  looking identical. ⚠️ SVG data-URIs must be fully percent-encoded — literal
+  spaces break in production (why the first deploy looked flat).
 - **Lines:** `--color-line` → graphite `#978e7c`; ink/muted warmed to graphite
   grays; palette hues kept but softened one step.
 - **Wobble:** unlayered overrides give `.rounded-card/xl/2xl/3xl/full` uneven
