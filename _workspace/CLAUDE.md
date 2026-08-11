@@ -68,6 +68,9 @@ Rules:
 - **Match the surrounding code** — comment density, naming, idioms. New code should
   be indistinguishable from what's already there.
 - **Reference code as `file:line`** so it's clickable.
+- **pnpm only, in every repo.** Never `npm install`/`npm run`/`yarn` — the
+  lockfile is `pnpm-lock.yaml` and `packageManager` is pinned. Use `pnpm exec`
+  (not `npx`) to run local binaries.
 
 ## Security — do not drift
 
@@ -113,8 +116,8 @@ it gets a second pair of eyes.
 - **Project:** JTrax — chess-school management (students, parents, teachers, admins;
   scheduling, attendance, credits) for JCA Chess Academy.
 - **Stack:** Next.js 16 + React 19 + Tailwind v4 + next-intl, pnpm (web + admin);
-  Expo SDK 57 + NativeWind + use-intl (mobile); Go 1.23 stdlib scaffold (backend —
-  design not final, don't build yet).
+  Expo SDK 57 + NativeWind + use-intl (mobile); Go (backend, SQLite + REST).
+  **pnpm is the package manager for every JS repo.**
 - **Repos (siblings of this file):**
   - `jtrax-web-app` — student / parent / teacher portals (`Kusk24/jtrax-web-app`)
   - `jtrax-admin` — super + branch admin portal, screens follow the user's mockups
