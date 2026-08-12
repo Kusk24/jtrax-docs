@@ -41,6 +41,25 @@ password, role and name updated.
 5. Further accounts are easier from the console: the Admins page creates a real
    `user_account` and shows a generated temporary password once.
 
+## Parent and student accounts
+
+Staff are the only accounts `JTRAX_STAFF` makes. The families come from a
+separate import, `JTRAX_ROSTER=1` + `JTRAX_ROSTER_PASSWORD`, which turns the
+ten students the console used to hard-code into twenty accounts — ten parents,
+ten students — with their classes, credits and contacts. Same shape: opt in,
+redeploy, remove both variables.
+
+Parents sign in with the address the office recorded
+(`carol.carter@gmail.com`); students get `<line-id>@student.jca.ac.th`. All
+twenty share one password, so it is demo data — real families should go through
+the forgot-password flow.
+
+Two of the imported statuses do not match the labels the console carried: Kevin
+Lim was written as Low Credit with 4 credits and Daniel Wong as Inactive with
+2, but the rules are low-credit at ≤3 and credits are checked before
+attendance. The credit figures are imported verbatim, so those two read as
+Normal and Low Credit. The hard-coded labels were the thing that was wrong.
+
 ## Gotchas
 
 **Step 4 is not tidying up.** Unlike `JTRAX_SEED`, which no-ops once accounts
