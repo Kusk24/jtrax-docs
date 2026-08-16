@@ -125,6 +125,39 @@ Two things could not be copied from the web app:
   against a pupil for a lesson.
 - Parents cannot take a seat: every seat taken is a seat a pupil cannot have.
 
+## Captured pieces (2026-08-16, jtrax-web-app#25)
+
+Each player now has a line above or below the board with their name, the pieces
+they have taken, and a `+N` for whoever is ahead. Both modes.
+
+Two halves, computed from **two different places**, and each covers a case the
+other gets wrong:
+
+- **The capture lists come from the move history**, because that is the only
+  record that gets **en passant** right — the taken pawn is not on the square
+  the capturing pawn lands on, so a position alone cannot say a capture happened
+  there. The obvious "diff the piece counts" implementation loses it silently.
+- **The advantage comes from the pieces on the board**, because that is the only
+  thing that gets **promotion** right: queening is worth eight points and
+  captures nothing, so a total summed from the capture lists is wrong by a whole
+  queen.
+
+`vitest` was added to `jtrax-web-app` for this — the repo had no test runner and
+`lib/chess-core.ts` is pure logic with exactly these edge cases. It earned its
+place immediately: the promotion line written by hand was **illegal** (`a7a8` is
+blocked by the rook on a8) and the test helper failed loudly rather than quietly
+proving nothing.
+
+Three of four mutations caught; the fourth — giving the king a material value —
+is genuinely unfalsifiable, since both sides always have exactly one and it
+cancels in every legal position.
+
+**A styling lesson worth keeping:** the first version tinted captured pieces
+back to suggest "off the board", and the white half of every tray came out
+nearly invisible on cream. Unicode's *outline* glyphs for White are mostly
+whitespace at 17px. Trays now use the **filled silhouette for both colours**,
+differing only in fill and stroke — which is what every real board does.
+
 ## Follow-ups
 
 - [ ] **Mobile vs-computer does not work.** The WebView bridge is proven
