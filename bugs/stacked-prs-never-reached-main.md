@@ -58,6 +58,40 @@ git fetch origin && git log --oneline origin/main -5
 git merge-base --is-ancestor origin/feature/x origin/main && echo in || echo MISSING
 ```
 
+## The opposite failure, three times over
+
+**2026-08-16, `jtrax-admin`.** Merging a stack *with* `--delete-branch` is the
+mirror image of the same trap, and it bit three times before the lesson stuck:
+PR #26, then #31, then nearly #33.
+
+```sh
+gh pr merge 25 --squash --delete-branch   # closes PR #26, whose base was that branch
+gh pr edit 26 --base main
+# GraphQL: Cannot change the base branch of a closed pull request.
+```
+
+Deleting the base branch closes every PR pointing at it, and GitHub refuses to
+reopen or retarget a closed PR — the review thread is gone for good. The
+recovery each time was a fresh PR against `main`, which loses the discussion and
+renumbers the work.
+
+**Rule: never pass `--delete-branch` while any PR still targets that branch.**
+Merging a stack goes:
+
+```sh
+gh pr merge <parent> --squash          # no --delete-branch
+git checkout -B <child> origin/<child>
+git rebase origin/main                 # squash rewrote history; rebase, don't merge
+git push -f origin <child>
+gh pr edit <child> --base main
+gh pr merge <child> --squash
+# …repeat, then delete every branch at the end
+```
+
+The rebase matters as much as the flag: a squash merge replaces the parent's
+commits with one new commit, so a child branch still carrying the originals
+conflicts against `main` even though the *content* is identical.
+
 Related: [[0005-render-and-turso-for-free-hosting]],
 [[backend-crud-and-live-portals]], [[claude-workspace-setup]]
 
