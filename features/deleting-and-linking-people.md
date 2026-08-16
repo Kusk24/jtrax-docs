@@ -98,11 +98,19 @@ because a sibling remains, the last child taking their guardian and contact rows
 with them, a parent deleted with children kept and with children taken, and a
 new sibling registered under an existing guardian with no duplicate account.
 
+## Afterwards, 2026-08-16
+
+- **Payments are no longer deleted with the child.** The first version of this
+  cascade removed them; they are now detached and keep the names — see
+  [[payments-outlive-students]].
+- **A child can be linked to a guardian from their own page** (admin #37), not
+  only from the Parents screen. Unlink is there too, and detaches only that
+  child.
+
 ## Follow-ups
 
-- [ ] The unlinked-students picker means a child whose guardian was deleted can
-      be re-linked, but there is no way to *move* a child between guardians in
-      one step — unlink then link.
+- [x] ~~no way to move a child between guardians~~ — unlink and link are both on
+      the student's page now, which is two clicks rather than two screens.
 
 Related: [[admin-console-ux-pass]], [[registering-a-student-looked-like-a-freeze]],
 [[backend-crud-and-live-portals]], [[0004-sqlite-and-generic-crud-backend]]
