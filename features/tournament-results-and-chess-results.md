@@ -112,10 +112,41 @@ the error and returned 200**, so the failure was invisible. A "non-fatal" error
 branch that returns success is exactly how a broken query survives a test suite.
 It is now a small helper that logs.
 
-## Follow-ups
+## The screens (2026-08-17, jtrax-admin#43, jtrax-web-app#26)
 
-- [ ] **No UI.** Admin round and result entry, and the public standings page,
-      are the next seam. The backend is complete and driven only by tests.
+**Admin — a `results` tab on the tournament.** Built for where it is actually
+used, standing in a noisy hall between rounds on a phone: **Add round pairs it
+in one press** (an arbiter wants a paired round, not an empty one to fill),
+results are **buttons rather than a dropdown** and send on tap with no save
+step, forfeits hide behind a toggle, and the standings sit above the boards and
+reorder as results land.
+
+**Public — `/t/[id]` in the web app.** The only route in that app with no
+sign-in. Server-rendered and fetched straight from the backend rather than
+through `/api`, because that proxy exists to attach a session token and this
+page has none. `revalidate = 10`, so a screen left up in the hall follows the
+round with nobody pressing anything. An unpublished event returns the same 404
+as a missing one, and `generateMetadata` returns a bare title on a miss so the
+name cannot leak through a page title either.
+
+Driven end to end in Chrome: created a four-player event, paired it, tapped both
+results, watched the round flip to Finished, published, then opened the public
+URL **in a browser with no session at all** — 200, with an unpublished
+tournament 404ing for the same visitor. Joint ranks survived to the public page:
+two players on 1 point both shown as rank 1.
+
+Two things that run caught: `published` was hard-coded `true` in the admin's
+`live.ts`, so the tab would have claimed every tournament was already public;
+and the new tab read `Results` while the existing two read `overview` /
+`participants`.
+
+**A debugging lesson worth more than the fix:** a phantom "recording a result
+resets the tab" turned out to be the test driver creating every tournament with
+the *same name*, so `.first()` kept selecting an earlier run's and stacking
+rounds onto it. Against a persistent dev database, unique fixture names are not
+optional.
+
+## Follow-ups
 - [ ] **Import from chess-results** by FIDE ID — the second half of the original
       request.
 - [ ] Categories exist but standings are computed across the whole event; a
