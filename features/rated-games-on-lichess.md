@@ -97,21 +97,31 @@ within a minute of actually clicking the button:
 - **Repeatedly pairing the same two pupils is what boosting looks like** to
   Lichess. Nothing throttles it yet. Worth watching before a class runs weekly
   rated ladders against each other.
-- **Rooms are not resumed after a restart.** Stream goroutines live in memory, so
-  a deploy mid-game leaves the Lichess game running with no watcher; the result
-  is then only picked up by the ordinary rating sync.
+- **A restart is survivable but not seamless.** Stream goroutines live in memory;
+  on boot `resume()` re-attaches to every Active rated room, and a game that
+  finished while the process was down is reconciled on reconnect. Between the
+  crash and the next boot, though, nobody is listening.
 
-## Not built yet
+## Reachable end to end
 
-- **No admin toggle.** The backend takes `lichessRated` on room creation and it
-  is fully tested, but the console has no checkbox, so the feature is not
-  reachable from the UI yet.
-- **The parent portal still has no Lichess card.** The permission works — a
-  parent can see their children's ratings — but no screen shows it. Carried over
-  from [[lichess-ratings-in-jtrax]] still unfixed.
+Added after the first pass, which shipped a backend nothing could reach:
+
+- **Admin** — a *Rated on Lichess* checkbox and a time control (5+0, 10+5, 15+10,
+  30+20) on room creation, and a Rated badge in the rooms list that flips to the
+  detach reason when a game stops counting.
+- **Student board** — a banner saying the game counts, with a link through to it
+  on Lichess, and the detach reason in plain language if it stops.
+- **Parent** — each child's Lichess ratings on their profile. Renders nothing when
+  no account is linked, so a family that does not use Lichess never sees an empty
+  card nagging them. This closes the gap carried over from
+  [[lichess-ratings-in-jtrax]].
+
+## Still not built
+
 - **Mobile is untouched.**
 - **`TrackedPerfs` still excludes correspondence, chess960 and the variants**, so
   a pupil who only plays those sees nothing.
+- **Nothing throttles repeat pairings**, which is the boosting risk above.
 
 ## See also
 
