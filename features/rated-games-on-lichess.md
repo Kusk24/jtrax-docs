@@ -1,6 +1,6 @@
 # Rated games on Lichess
 
-**Shipped:** 2026-08-19 · **Repos:** `jtrax-backend`, `jtrax-web-app`
+**Shipped:** 2026-08-19 · **Repos:** `jtrax-backend`, `jtrax-web-app`, `jtrax-admin`
 
 A game played on the JTrax board can now *be* a real, rated game on lichess.org.
 Two students sit down here; the result and the rating change land on their real
