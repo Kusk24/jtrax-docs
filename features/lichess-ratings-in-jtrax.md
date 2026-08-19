@@ -35,6 +35,14 @@ is why the feature costs nothing to run, which matters under
 [[jtrax-free-tier-no-card]]. `LICHESS_API_BASE` exists only to point at a test
 stub or an egress proxy.
 
+> **Correction, 2026-08-19.** This note originally said Lichess could not be
+> written to at all. That is wrong: `POST /api/challenge/open` creates a real
+> rated game with *no authentication whatsoever*, and the Board API plays games
+> with a token the player granted. Everything above remains true of the
+> read-only sync described here — it still uses no credentials — but "Lichess
+> has no write API" was a false premise. See [[rated-games-on-lichess]], which
+> relays JTrax board games into real rated Lichess games.
+
 ## The verification problem, and the cheap answer
 
 **A typed username is a claim, not a fact.** Nothing stops a pupil entering a
