@@ -1,6 +1,7 @@
 # External tournaments from chess-results.com
 
 **Shipped:** 2026-08-19 · **Repos:** `jtrax-backend`, `jtrax-admin`, `jtrax-web-app`
+**PRs:** jtrax-backend#22 → #23; jtrax-admin#48; jtrax-web-app#29 (bracket); jtrax-admin#46 (public link fix)
 
 The second half of the tournament-results decision recorded in
 [[tournament-results-and-chess-results]] ("own results first, then import"): the academy
