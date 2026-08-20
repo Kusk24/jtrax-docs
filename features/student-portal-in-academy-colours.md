@@ -22,7 +22,7 @@ The student portal stopped being a warm cottage with a cat and became the academ
 
 ## Follow-ups
 
-- [ ] jtrax-mobile-app still carries the old cottage palette; the port ([[jtrax-mobile-app]] memory says web code copies near-verbatim) should pick up the new tokens.
+- [x] jtrax-mobile-app carried the old cottage palette — done 2026-08-20, along with the teacher portal, the sign-in screen and the chess board. See [[one-palette-across-every-app]].
 - [ ] The daily-challenge streak still increments client-side on the third puzzle; nothing server-side guards it.
 
 Related: [[student-challenges]], [[lichess-ratings-in-jtrax]], [[rated-games-on-lichess]]
