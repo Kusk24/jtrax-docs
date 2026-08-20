@@ -40,7 +40,7 @@ Console: `components/tournament/LinkedResultsCard.tsx`, at the top of the Result
 
 ## Follow-ups
 
-- [ ] Only the ranking table is read — chess-results' per-round crosstables are not parsed, so a linked event shows standings but no pairings and no bracket.
+- [x] Only the ranking table was read — done 2026-08-20: the arbiter's per-round pairing pages are mirrored too. See [[tournament-rounds-from-swiss-manager]].
 - [ ] Nothing reconciles a linked event's standings against the tournament's own registration list; a player who registered here but is absent from the arbiter's table is not flagged.
 
 Related: [[external-tournaments-from-chess-results]], [[public-tournament-registration]]
