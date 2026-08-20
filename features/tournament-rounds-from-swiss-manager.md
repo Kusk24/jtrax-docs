@@ -72,8 +72,8 @@ public page rendered all of it at 390/768/1280, axe-clean, in EN and TH.
 - [ ] Corrections the arbiter uploads to an *old* round are never re-read
       (counted rounds are immutable by design). Rare; a manual unlink/relink
       re-mirrors everything if it ever matters.
-- [ ] jtrax-mobile-app has no tournament surface yet; the student banner and
-      the public page port near-verbatim.
+- [x] jtrax-mobile-app tournament surface — done 2026-08-21 (mobile #7):
+      `/tournament/<id>` screen + home banners, ported from the web page.
 
 Related: [[tournaments-linked-to-chess-results]], [[public-tournament-registration]]
 
