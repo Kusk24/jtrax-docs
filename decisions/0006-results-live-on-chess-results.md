@@ -1,6 +1,6 @@
 # 0006 — Tournament results live on chess-results.com, never in JTrax
 
-**Date:** 2026-08-21 · **Status:** accepted · **PRs:** jtrax-admin#57
+**Date:** 2026-08-21 · **Status:** accepted · **PRs:** jtrax-admin#57, #58
 
 ## Context
 
@@ -23,6 +23,11 @@ disagreed with the arbiter's table the moment a round was uploaded.
 - The public `/t/<id>` page for an **unlinked** published event lists
   registered players (the tracking data) until the link is added — stated in
   the console so nobody hunts for an "enter results" button.
+- **The round trip is first-class** (#58): linked tournaments carry a
+  "chess-results" jump and an "Update results" button on the list card and the
+  detail header — go there, upload from Swiss-Manager, come back, press
+  Update. The list page itself became three tabs (Ongoing & upcoming / Past /
+  chess-results.com) instead of one stacked scroll.
 
 ## Consequences
 
