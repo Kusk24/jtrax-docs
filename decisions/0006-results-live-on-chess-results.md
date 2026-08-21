@@ -1,6 +1,6 @@
 # 0006 — Tournament results live on chess-results.com, never in JTrax
 
-**Date:** 2026-08-21 · **Status:** accepted · **PRs:** jtrax-admin#57, #58
+**Date:** 2026-08-21 · **Status:** accepted · **PRs:** jtrax-admin#57, #58, #59
 
 ## Context
 
@@ -23,6 +23,10 @@ disagreed with the arbiter's table the moment a round was uploaded.
 - The public `/t/<id>` page for an **unlinked** published event lists
   registered players (the tracking data) until the link is added — stated in
   the console so nobody hunts for an "enter results" button.
+- **Swiss-Manager has no link to give.** It is a desktop program; only
+  chess-results.com has an address, so "the link" always means the
+  chess-results event. A tournament with no chess-results event has nothing to
+  jump to, and the console says so by offering "Link results" instead (#59).
 - **The round trip is first-class** (#58): linked tournaments carry a
   "chess-results" jump and an "Update results" button on the list card and the
   detail header — go there, upload from Swiss-Manager, come back, press
