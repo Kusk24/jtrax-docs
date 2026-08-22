@@ -91,8 +91,28 @@ starts charges nothing.
 
 `fmtCredits` is tested against floating-point dust directly.
 
+## Revisited: negative balances, 2026-08-22
+
+The second decision above was challenged and stands. Backend #36 —
+*"Refuse a session a child cannot pay for"* — was built and verified against a
+running server: the charge read the balance before writing and refused with
+`400 Boon has 0.5 credits left and this session costs 2`, in the same
+transaction, so no attendance row survived the refusal.
+
+It was **closed unmerged**. The academy lets a child attend on credit and settle
+afterwards, so refusing the attendance is the wrong rule — turning a child away
+at the door to protect a balance is not something the front desk does. The
+console marks the shortfall instead: a red figure beside the name on the session
+panel says who to chase, and the tick survives the session being lengthened,
+because there is nothing to withdraw.
+
+Worth recording because the refusal is a reasonable-looking change that will be
+proposed again. See [[create-session-would-not-press]].
+
 Related: [[the-front-desk-remembered-nothing]],
 [[the-console-asked-for-things-it-could-not-keep]],
-[[backend-crud-and-live-portals]]
+[[backend-crud-and-live-portals]], [[credits-follow-the-child]],
+[[create-session-would-not-press]],
+[[0007-retire-a-row-instead-of-deleting-it]]
 
 Tags: #feature #backend #admin #data
