@@ -77,7 +77,7 @@ no explanation. Those roles belong to the portals in `jtrax-web-app`.
 
 **The two roles are the whole set.** The console used to show a third,
 "Super Admin", which no backend account could actually be — see
-[[console-roles-match-the-backend]]. An Admin sees every section; a
+[[0004-console-roles-match-the-backend]]. An Admin sees every section; a
 Receptionist does not get Admins, Academy or Settings.
 
 **A cold start looks like a wrong password.** Render's free plan sleeps after
