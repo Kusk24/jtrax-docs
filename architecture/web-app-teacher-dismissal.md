@@ -3,7 +3,12 @@
 - **Date:** 2026-07-04
 - **Repo/branches:** `jtrax-web-app` · `feature/teacher-dismissal` →
   `feature/portal-consistency` (stacked on `feature/thai-localization`)
-- **Status:** Pushed; verified in browser (en + th, incl. click-through)
+- **Status:** **Removed 2026-08-23** — the dismissal flow and the Ongoing tab
+  are gone with the rest of the teacher portal, and the "data contract (backend
+  + admin must mirror these fields)" below was never mirrored and never will be:
+  dismissal is the front desk's, stamped as `attendance.check_out_time`. See
+  [[0008-the-academy-has-no-teacher-role]] and
+  [[a-dismissal-that-looked-frozen]].
 
 ## Class lifecycle (new)
 Take attendance (manual/scan) → **Finish Attendance** now routes to the new

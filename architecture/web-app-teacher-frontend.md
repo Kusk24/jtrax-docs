@@ -3,7 +3,9 @@
 - **Date:** 2026-07-03
 - **Repo/branch:** `jtrax-web-app` · `feature/teacher-frontend` (stacked on
   `feature/student-frontend` — merge student first)
-- **Status:** Shipped on branch, pending merge
+- **Status:** **Removed 2026-08-23** — the portal described below no longer
+  exists in any front-end. Kept as the record of what was built and why it went.
+  See [[0008-the-academy-has-no-teacher-role]].
 
 ## What shipped
 The **teacher portal** from the Figma mobile mockups: dashboard, schedule, both
