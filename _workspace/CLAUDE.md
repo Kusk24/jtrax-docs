@@ -130,7 +130,11 @@ it gets a second pair of eyes.
   `meeting-notes/`; new notes from the `vault-note` skill go in `features/`,
   `bugs/`, `ops/`, `research/` with templates in `_templates/`.
 - **Run locally:** `pnpm dev` in `jtrax-web-app` / `jtrax-admin`;
-  `pnpm start` (Expo) in `jtrax-mobile-app`. Go is not installed on this machine.
+  `pnpm start` (Expo) in `jtrax-mobile-app`. Go is installed
+  (`/opt/homebrew/bin/go`) — the backend runs locally with
+  `JTRAX_DB=<file> JTRAX_SEED_PASSWORD=<pw> PORT=8790 go run ./cmd/server`,
+  which seeds demo accounts (`sandy01234@gmail.com`, `admin@jca.ac.th`, …)
+  with that shared password.
 - **Supported languages:** EN + TH via next-intl `locale` cookie. Thai is
   role-aware (e.g. ตารางสอน teacher vs ตารางเรียน student), Mitr font for Thai
   glyphs. Mock data (names, courses, branches) stays English.
