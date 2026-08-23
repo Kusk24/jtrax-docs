@@ -1,6 +1,6 @@
 # Credits follow the child into the class they moved to
 
-**Shipped:** 2026-08-23 · **Repos:** `jtrax-admin` · **PR:** #74
+**Shipped:** 2026-08-23 · **Repos:** `jtrax-admin` · **PRs:** #74, #80 (amount + expiry)
 
 A child who leaves Beginner with eight credits and joins Intermediate no longer
 loses them. The office moves the balance from one enrolment to the other, and
@@ -66,6 +66,27 @@ balance would not allow.
   old balance is zero or negative.
 - **Fractions are kept.** Rounding to whole credits would quietly give away or
   take back up to an hour of teaching on every move.
+
+## Revisited: the amount and the expiry, 2026-08-24 (#80)
+
+Using the flow surfaced two gaps.
+
+**The conversion was the only possible answer.** One click wrote the computed
+figure; there was no way to land on a round number or a negotiated one. The
+dialog now has a **Credits to add** field: prefilled with the conversion, and
+what is in the field is what gets written. A hand-typed figure shows a note with
+what the conversion works out to. This also softens the `rateUnknown` refusal —
+the automatic path still never guesses, but the office can type the figure
+itself, which is a decision rather than a guess.
+
+**The moved balance stopped expiring.** The incoming entry carried no
+`expiry_date`, so the student's chip and the parent portal's "valid until" both
+went blank after a move. An **Expires** field, prefilled with the old balance's
+own latest expiry, rides on the incoming entry only.
+
+Both mutation-checked in `StudentEnrolments.test.tsx`, and driven in a browser:
+19 credits typed down to 10.5 with a 2027 expiry landed as `-19` / `+10.5` with
+the date on the ledger.
 
 ## Follow-ups
 
