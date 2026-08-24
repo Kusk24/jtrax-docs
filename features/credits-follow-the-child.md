@@ -1,6 +1,6 @@
 # Credits follow the child into the class they moved to
 
-**Shipped:** 2026-08-23 · **Repos:** `jtrax-admin` · **PRs:** #74, #80 (amount + expiry)
+**Shipped:** 2026-08-23 · **Repos:** `jtrax-admin` · **PRs:** #74, #80 (amount + expiry), #81 (half-credit grid)
 
 A child who leaves Beginner with eight credits and joins Intermediate no longer
 loses them. The office moves the balance from one enrolment to the other, and
@@ -66,6 +66,12 @@ balance would not allow.
   old balance is zero or negative.
 - **Fractions are kept.** Rounding to whole credits would quietly give away or
   take back up to an hour of teaching on every move.
+  **Revised in #81 (2026-08-24):** kept, but on the half-credit grid. A session
+  costs 0.5 or 1 — the academy has no smaller unit of teaching — so a computed
+  4.8 was a balance whose tail nothing could ever spend. `ceilToHalfCredit`
+  rounds the conversion **up** to the next half (4.8 → 5, 3.33 → 3.5): down
+  would take teaching the family paid for, up gives away at most 0.49 of a
+  credit. A figure the office types by hand is still written as typed.
 
 ## Revisited: the amount and the expiry, 2026-08-24 (#80)
 
