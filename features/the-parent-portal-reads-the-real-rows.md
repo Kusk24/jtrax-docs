@@ -97,9 +97,15 @@ The academy's feedback after a real class change reshaped the card:
 - **No upcoming-session line after all.** #43 showed the class's next session
   as the schedule; the academy's point is that a session written one at a time
   is not a plan a parent can put in a calendar. Gone.
-- **Attended-of-50.** A certificate is awarded after 50 classes
-  (`CERT_SESSIONS`, `lib/parent-v2-data.ts`) — the classes block counts toward
-  that milestone instead of session tallies that shifted with every purchase.
+- **Attended-of-50.** A certificate is awarded after 50 classes — the classes
+  block counts toward that milestone instead of session tallies that shifted
+  with every purchase. The 50 is the academy's own setting since backend #39 /
+  console #83 / web #45: `certificate_sessions` in `system_configuration`,
+  edited on the console's Settings screen (the card is now **Academy Rules**),
+  read by the portal with 50 as the fallback. `system_configuration` became
+  readable by every role for this — safe because it holds display
+  configuration only, never secrets, which the resource comment now states as
+  the rule.
 - **History rows keep their session's own class.** They printed the child's
   *current* class, so a move relabelled a term of old rows overnight.
 
