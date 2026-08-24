@@ -1,6 +1,6 @@
 # The parent portal reads the real rows
 
-**Shipped:** 2026-08-24 · **Repos:** `jtrax-web-app` · **PR:** #43
+**Shipped:** 2026-08-24 · **Repos:** `jtrax-web-app` · **PRs:** #43, #44 (child card revised)
 
 A parent now sees their own children's real records — the class's actual next
 session, real credit arithmetic, notifications derived from attendance stamps —
@@ -85,6 +85,23 @@ minutes through the API as staff — all four appeared on home, the child page
 and notifications. Marked one notification read, reloaded: 4 unread became 3
 and stayed 3. Killed the backend: the error card with retry, no sample
 children, no login bounce. `tsc`, `next build`, 8/8 tests.
+
+## Revisited: the child card's numbers, 2026-08-24 (#44)
+
+The academy's feedback after a real class change reshaped the card:
+
+- **The balance stands alone.** "16.5 / 36.5" — the denominator summed
+  everything ever added, so top-ups grew it forever and a moved-in balance
+  counted on top of the original purchase, reading as doubled after a class
+  change. History shown as a quota; removed, with the "credits remaining" bar.
+- **No upcoming-session line after all.** #43 showed the class's next session
+  as the schedule; the academy's point is that a session written one at a time
+  is not a plan a parent can put in a calendar. Gone.
+- **Attended-of-50.** A certificate is awarded after 50 classes
+  (`CERT_SESSIONS`, `lib/parent-v2-data.ts`) — the classes block counts toward
+  that milestone instead of session tallies that shifted with every purchase.
+- **History rows keep their session's own class.** They printed the child's
+  *current* class, so a move relabelled a term of old rows overnight.
 
 ## Follow-ups
 
