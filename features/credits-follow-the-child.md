@@ -68,10 +68,12 @@ balance would not allow.
   take back up to an hour of teaching on every move.
   **Revised in #81 (2026-08-24):** kept, but on the half-credit grid. A session
   costs 0.5 or 1 — the academy has no smaller unit of teaching — so a computed
-  4.8 was a balance whose tail nothing could ever spend. `ceilToHalfCredit`
-  rounds the conversion **up** to the next half (4.8 → 5, 3.33 → 3.5): down
-  would take teaching the family paid for, up gives away at most 0.49 of a
-  credit. A figure the office types by hand is still written as typed.
+  4.8 was a balance whose tail nothing could ever spend. `roundToHalfCredit`
+  rounds the **result** (never the rates) to the **nearest** half: 13.2 → 13,
+  13.3 → 13.5, 4.8 → 5. Rounding up was tried first and rejected by the
+  academy — it hands out up to half an hour free on every move; nearest caps
+  what either side gives at a quarter credit. A figure the office types by
+  hand is still written as typed.
 
 ## Revisited: the amount and the expiry, 2026-08-24 (#80)
 
