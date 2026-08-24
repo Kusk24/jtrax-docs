@@ -1,6 +1,6 @@
 # Credits follow the child into the class they moved to
 
-**Shipped:** 2026-08-23 · **Repos:** `jtrax-admin` · **PRs:** #74, #80 (amount + expiry), #81 (half-credit grid)
+**Shipped:** 2026-08-23 · **Repos:** `jtrax-admin` · **PRs:** #74, #80 (amount + expiry), #81→#82 (half-credit grid — #81 merged into its stack base by mistake and was re-landed as #82, see [[stacked-prs-never-reached-main]])
 
 A child who leaves Beginner with eight credits and joins Intermediate no longer
 loses them. The office moves the balance from one enrolment to the other, and

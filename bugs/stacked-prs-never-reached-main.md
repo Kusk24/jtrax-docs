@@ -92,7 +92,20 @@ The rebase matters as much as the flag: a squash merge replaces the parent's
 commits with one new commit, so a child branch still carrying the originals
 conflicts against `main` even though the *content* is identical.
 
+## Recurred: 2026-08-24, jtrax-admin #81
+
+The other way the same trap fires: the child PR was **merged without being
+retargeted**. Admin #80 (the stack's base) merged to `main`; #81 was then
+merged still pointing at `fix/move-credits-amount-and-expiry`, so the
+half-credit rounding landed on a dead branch and `main` never saw it. GitHub
+happily reports the PR as Merged either way — the state to check is `main`'s
+own log, not the PR badge. Re-landed by cherry-picking the two commits onto a
+fresh branch from `main` (#82); the diff against the merged #81 head was
+empty, so the review carried over. **Retarget the child before merging it,
+not after noticing.**
+
 Related: [[0005-render-and-turso-for-free-hosting]],
-[[backend-crud-and-live-portals]], [[claude-workspace-setup]]
+[[backend-crud-and-live-portals]], [[claude-workspace-setup]],
+[[credits-follow-the-child]]
 
 Tags: #bug #ops #process #git
