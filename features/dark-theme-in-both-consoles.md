@@ -1,7 +1,7 @@
 # Dark theme, in the console and the parent portal
 
 **Shipped:** 2026-08-24 · **Repos:** `jtrax-admin`, `jtrax-web-app`
-**PRs:** console #84 · portal #46 (stacked: web #44 → #45 → #46)
+**PRs:** console #84 · portal #46, re-landed as #47 (see [[stacked-prs-never-reached-main]])
 
 Both apps follow `user_account.theme_preference` — Light, Dark, or System
 (the OS) — saved through the existing `PATCH /auth/me`, so the choice follows

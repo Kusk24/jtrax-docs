@@ -104,8 +104,25 @@ fresh branch from `main` (#82); the diff against the merged #81 head was
 empty, so the review carried over. **Retarget the child before merging it,
 not after noticing.**
 
+## Recurred again: 2026-08-25, jtrax-web-app #45 and #46
+
+A three-deep stack (#44 → #45 → #46), all three merged, and only #44 reached
+`main`: #45 landed on `fix/child-detail-numbers` and #46 on
+`feat/cert-milestone-from-config`. The certificate setting and the parent
+portal's dark theme were both absent from the app while GitHub showed all
+three PRs as Merged. Re-landed by cherry-picking the two orphaned commits onto
+`main` (#47); the diff against the merged #46 head was empty.
+
+**The fix is a repo setting, not more care.** GitHub auto-retargets a child PR
+to `main` only when the base branch is *deleted* on merge. These repos keep
+branches, so every child needs manual retargeting — a step that has now been
+missed three times by three different routes. Turning on **Automatically
+delete head branches** removes the step. Until then: after merging any parent,
+immediately run `gh pr edit <child> --base main`, and check `main`'s log rather
+than the PR badge.
+
 Related: [[0005-render-and-turso-for-free-hosting]],
 [[backend-crud-and-live-portals]], [[claude-workspace-setup]],
-[[credits-follow-the-child]]
+[[credits-follow-the-child]], [[dark-theme-in-both-consoles]]
 
 Tags: #bug #ops #process #git
