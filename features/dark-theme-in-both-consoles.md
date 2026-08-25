@@ -39,6 +39,26 @@ real blue, the primary-button blue, so the KPI tiles read as one pastel
 family. **Rule: validate palette work with a contrast script, not by eye — and
 screenshot both themes before shipping a theme.**
 
+## Follow-ups from using it (admin #86, web #48)
+
+- **The theme picker moved to Settings** in the console — it sat in the header
+  beside the date and the account, which is prime space for a control nobody
+  changes twice a year. The language pill stays there (switching EN/ไทย happens
+  mid-task), and both toggles now share the app blue; they were blue and navy,
+  reading as two different kinds of control.
+- **Hardcoded light surfaces are the failure mode of a token sweep.** The
+  parent portal's child cards kept white/pale-gradient backgrounds under
+  flipped light ink — invisible names. Eight more of the same kind turned up in
+  a hex census: sender tints, the absent chip, the donut and progress tracks,
+  the dashed empty states, the sign-out hover. **After any theme sweep, grep
+  the touched directories for remaining hex literals** — the class-based
+  replacements are the easy half.
+- **`pp-navy` deliberately does not flip**, so anything drawn *in* navy as ink
+  (the PARENT chip) disappears on a dark band. Navy is a surface colour here,
+  not an ink one.
+- Parent Profile and Settings became separate tabs, with Logout in the
+  sidebar's bottom corner as the console has it.
+
 ## Deliberately not themed
 
 The chess board and pieces (both apps) and the navy gradient cards: a pupil's
