@@ -26,6 +26,19 @@ and nothing changed, found only by driving it. The portal uses classic scoped
 variable overrides instead; the console gets away with `light-dark()` because
 its toggle sets the root element itself.
 
+## Corrected: #85, 2026-08-25
+
+The console conversion had generated the accent and tint variables under the
+same names — last definition wins — so every accent-on-tint chip was invisible
+text in both themes, and the dark tints measured 1.02–1.16:1 against the card
+(the daylight pastels became holes). #85 rewrites the token block with
+`--jt-accent-*` and `--jt-tint-*` distinct, every pair measured ≥4.5:1 in both
+themes by script, dark tints lifted to 1.3–1.5:1 above the surface. The Admin
+role chip and the Total Students tile also moved from navy to the console's
+real blue, the primary-button blue, so the KPI tiles read as one pastel
+family. **Rule: validate palette work with a contrast script, not by eye — and
+screenshot both themes before shipping a theme.**
+
 ## Deliberately not themed
 
 The chess board and pieces (both apps) and the navy gradient cards: a pupil's
