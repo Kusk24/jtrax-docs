@@ -39,6 +39,30 @@ QLoRA). The two hard parts are not training:
 If the use-case is the tournament-poster / registration-form extraction,
 an API vision model called on demand is more sensible than fine-tuning.
 
+## The account has AWS — what that actually changes (verified 2026-08-23)
+
+Checked against the real account (`730335541742`, us-east-1), not assumed:
+
+| Check | Result |
+|---|---|
+| Credentials work | yes — `sts get-caller-identity` returns the IAM user |
+| EC2 **On-Demand** G/VT vCPU quota | **0** |
+| EC2 **Spot** G/VT vCPU quota | **0** |
+| SageMaker `ml.g4dn.xlarge` (training / spot / notebook / processing) | **0** across the board |
+| Bedrock | reachable — foundation models list fine |
+
+**Having an AWS account is not the same as being able to train on it.** Every
+GPU quota on this account is zero, which is the default for accounts that have
+never used GPUs. Nothing can be launched until a Service Quotas increase is
+requested and approved (free, but hours-to-days, and AWS can decline for
+accounts with no billing history). Request *both* "Running On-Demand G and VT
+instances" and the Spot equivalent, in vCPUs — a `g4dn.xlarge` is 4 vCPUs.
+
+Cost, once unblocked: `g4dn.xlarge` (1×T4, 16 GB) is **~$0.526/hour on demand
+≈ $384/month if left running**. GPU instances are **not** in the AWS free tier.
+Training runs are cheap (hours → a few dollars); a 24/7 inference server is the
+line item that matters.
+
 ## Infra — what is actually needed (free + card-free rule applies)
 
 | Option | Card? | What you get | Verdict |
@@ -46,7 +70,8 @@ an API vision model called on demand is more sensible than fine-tuning.
 | **Local (this Mac, M2 16 GB)** | no | MLX LoRA: 1–7B fine-tunes, ~20–30 min for small sets | Best for iteration; private data stays local |
 | **Kaggle** | no (phone verify) | 30 GPU-h/week, P100/T4 16 GB, 9-h sessions, background exec | Best free option for longer runs. Notebooks public by default — no student data |
 | **Colab free** | no | T4 16 GB, session timeouts | Fine for Unsloth QLoRA experiments |
-| AWS / GCP / SageMaker / Vertex | **yes** | managed everything | Not needed at this scale; violates the card-free rule |
+| **AWS (this account)** | already on file | GPU quota currently 0 — needs an increase first; ~$0.53/h for a T4 once unblocked | Worth it only for the LLM path (serving). Not needed for Maia |
+| GCP / Vertex | yes | managed everything | Not needed at this scale |
 
 **Privacy note:** students are children. Training on their games/data stays
 local or in private storage — never a public Kaggle notebook/dataset.
@@ -66,7 +91,9 @@ unanswerable. For Maia: held-out games at the target rating band.
 3. Serve in-browser next to the existing Stockfish WASM; A/B in the
    student portal's Play screen.
 4. Only revisit the LLM path when there is a concrete feature that needs
-   language — and a serving budget.
+   language — and a serving budget. That is where AWS earns its keep: it is
+   the one option here that can *serve* a fine-tuned LLM at all. Request the
+   GPU quota increase now regardless, so it is approved before it is needed.
 
 ## Sources
 
