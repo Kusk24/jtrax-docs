@@ -1,6 +1,7 @@
 # Fine-tuning a model for JTrax — options and constraints
 
-**Date:** 2026-08-23 · **Status:** research, no decision yet
+**Date:** 2026-08-23 · **Updated:** 2026-08-27 · **Status:** Maia-2 chosen;
+serving path verified end to end
 
 The academy wants its own fine-tuned model in the product instead of only
 using other people's. Two very different candidates for "the AI in this
@@ -23,6 +24,54 @@ children's academy this is the genuinely differentiating path:
 - **Serving fits the free tier**: these policy nets are megabytes, runnable
   in the browser (ONNX Runtime Web / WASM) exactly like the existing
   Stockfish WASM — zero server cost, works in the same PlayShell.
+
+### Which Maia — Maia-2 (decided 2026-08-27)
+
+There are three and they are not interchangeable:
+
+| | Fine-tuning | Serving |
+|---|---|---|
+| **Maia-1** (`maia-chess`) | TensorFlow + `pgn-extract` + `trainingdata-tool`, 2020-era | proven ONNX (`maia_kdd_1100…1900`) in maia-platform-frontend |
+| **Maia-2** ✅ | `pip install maia2`, documented `train.run(cfg)`, plain PyTorch | verified below |
+| **Maia-3** (5M/23M/79M) | **no training code published** — inference only | undocumented |
+
+Maia-2 wins on one property that matters specifically here: it is
+**rating-conditioned at inference time**, not at training time. Signature, read
+from the installed package (`maia2/main.py`), not from docs:
+
+```
+MAIA2Model.forward(boards, elos_self, elos_oppo)
+  boards     float32 (batch, 18, 8, 8)      # input_channels: 18
+  elos_self  int64 bucket index             # 11 buckets, '<1100' … '2000+'
+  elos_oppo  int64 bucket index
+  -> (logits_maia, logits_side_info, logits_value)
+```
+
+So **one file serves every student level** — pass the pupil's band as
+`elos_self`. Maia-1 would mean shipping nine nets and choosing per student.
+
+### The ONNX gate — passed (verified 2026-08-27)
+
+maia2's docs never mention ONNX, and the whole free-serving plan depended on it,
+so it was checked before any training time was spent. Scripts live in
+`jtrax-ai/` (`step1_baseline.py`, `step2_export_onnx.py`).
+
+| Check | Result |
+|---|---|
+| Install (conda py3.12, maia2 0.11.0, torch 2.8.0) | ok — system py3.13 is too new, env is required |
+| Baseline move-match, stock model, bundled example set, MPS | **0.5311** |
+| Model size | 23.3M parameters |
+| `torch.onnx.export` opset 17 | **ok** |
+| onnxruntime load + run | ok — policy shape `(1, 1880)` |
+| Max output drift vs PyTorch | **2.34e-05** |
+| Exported file size | **93.2 MB fp32** |
+
+The drift number is the one that mattered: an export that runs but disagrees
+with PyTorch is worse than one that fails, because nothing downstream notices
+and the browser plays a different game from the one that was evaluated.
+
+**Open item:** 93 MB is a first-load download for every student. Quantise to
+int8 (~25 MB expected) before shipping to the Play screen.
 
 ## Candidate B — a fine-tuned small LLM (tutor chat, form OCR)
 
@@ -84,13 +133,21 @@ unanswerable. For Maia: held-out games at the target rating band.
 
 ## Suggested path
 
-1. Prototype locally: run Maia checkpoints vs. move-match on Lichess games
-   at the levels the academy teaches; confirm the "plays like a kid at
-   level X" feel beats Stockfish-dialed-down in play-testing.
-2. Fine-tune on Kaggle (public data) or locally (student data).
-3. Serve in-browser next to the existing Stockfish WASM; A/B in the
-   student portal's Play screen.
-4. Only revisit the LLM path when there is a concrete feature that needs
+1. ~~Prototype locally~~ **done 2026-08-27** — baseline 0.5311 and the ONNX
+   export both verified; see the gate table above.
+2. **Next:** build the held-out eval set from games at the bands JCA teaches,
+   and play-test stock Maia-2 vs. Stockfish-dialed-down before training
+   anything. If stock Maia does not already feel more human to a child, a
+   fine-tune will not rescue it.
+3. Fine-tune on Kaggle (public Lichess data) or locally (student data).
+   Kaggle notes: private notebooks only (students are children); 2×T4 costs
+   the same quota as the P100 for double the compute; never download a raw
+   monthly Lichess dump (~30 GB zst / ~300 GB open) — stream-filter to the
+   target band first and save that as a private Dataset; checkpoint every
+   epoch to `/kaggle/working/`.
+4. Quantise to int8, then serve in-browser next to the existing Stockfish
+   WASM; A/B in the student portal's Play screen.
+5. Only revisit the LLM path when there is a concrete feature that needs
    language — and a serving budget. That is where AWS earns its keep: it is
    the one option here that can *serve* a fine-tuned LLM at all. Request the
    GPU quota increase now regardless, so it is approved before it is needed.
