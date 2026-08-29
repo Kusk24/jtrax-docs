@@ -1,7 +1,13 @@
 # Fine-tuning a model for JTrax — options and constraints
 
-**Date:** 2026-08-23 · **Updated:** 2026-08-27 · **Status:** Maia-2 chosen;
-serving path verified end to end
+**Date:** 2026-08-23 · **Updated:** 2026-08-29 · **Status:** superseded as a
+plan — see [[training-our-own-chess-opponents]]
+
+**What actually happened:** Maia-2 was *not* chosen as the training target. It
+is kept as a benchmark (0.5311 move-match, and **~1430 Elo measured 2026-08-29**
+against Stockfish at its 1500 dial). The model being trained is a 25.7M
+character-level GPT over PGN text, from random weights. Reasons in the feature
+note; this note is kept for the option comparison that led there.
 
 The academy wants its own fine-tuned model in the product instead of only
 using other people's. Two very different candidates for "the AI in this
@@ -166,3 +172,25 @@ Related: [[jtrax-free-tier-no-card]] rule ·
 `decisions/0005-render-and-turso-for-free-hosting.md`
 
 Tags: #research #ai #chess
+
+
+## Maia-2 Elo — measured 2026-08-29
+
+The papers report move-match, never Elo, so it was measured directly with
+`jtrax-ai/step6_elo.py` against Stockfish 18 at calibrated strengths:
+
+| opponent | score | performance |
+|---|---|---|
+| `UCI_Elo` 1320 | 6.5/12 | 1349 |
+| `UCI_Elo` 1600 | 4.5/12 | 1511 |
+| **estimate** | | **~1430** |
+
+Set to its 1500 dial it plays ~1430, so the rating conditioning is well
+calibrated.
+
+**A trap found while measuring.** Stockfish's `UCI_Elo` floor is 1320, so
+weaker rungs used `Skill Level` with community Elo equivalents. Those are
+badly wrong: Maia-2 lost 1.5/12 to "Skill 3 (~1000)" while drawing 6.5/12
+against a calibrated 1320. Averaging them in reported 1027 for a ~1430 player.
+`step6_elo.py` now uses calibrated rungs only, and flags any estimate that
+rests on Skill Level.
