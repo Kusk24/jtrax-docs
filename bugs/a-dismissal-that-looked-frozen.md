@@ -2,6 +2,12 @@
 
 **Found:** 2026-08-22 · **Fixed:** 2026-08-23 · **Repos:** `jtrax-admin` · **PR:** #75
 
+> **Naming note, 2026-09-01.** The button called *Dismiss* below is now *Check
+> Out* — see [[check-in-and-check-out]] (#90). The prose here is left as it was
+> written because it is the record of what the desk saw in August. The
+> `ActionButton` fix it describes is unchanged and now covers the bulk
+> check-out too.
+
 ## Symptom
 
 Two things about attendance the desk could not see.

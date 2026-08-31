@@ -2,6 +2,13 @@
 
 **Shipped:** 2026-08-22 · **Repos:** `jtrax-admin` · **PR:** #73
 
+> **Partly superseded 2026-09-01 by [[the-nav-loses-two-tabs]] (#90).** Lichess
+> no longer has a nav entry of its own: it is the first section of the Games
+> screen, `/lichess` redirects to `/games`, and `components/pages/LichessPage.tsx`
+> is gone. The reasoning below still holds and is why the merge kept Lichess
+> *first* — what changed is that "next to Games" turned out to be a weaker
+> version of "on the same screen as Games".
+
 The Lichess dashboard has its own place in the console nav, next to Games, and
 the receptionist can open it.
 
@@ -36,8 +43,8 @@ screens sit together and the office records start below them.
   console's only grouping — there are no headings — so adjacency is what says
   two screens are about the same thing.
 
-Related: [[lichess-ratings-in-jtrax]], [[rated-games-on-lichess]],
-[[a-game-opens-as-a-page-and-leaves-as-pgn]],
+Related: [[the-nav-loses-two-tabs]], [[lichess-ratings-in-jtrax]],
+[[rated-games-on-lichess]], [[a-game-opens-as-a-page-and-leaves-as-pgn]],
 [[0004-console-roles-match-the-backend]]
 
 Tags: #feature #admin #ux #chess
