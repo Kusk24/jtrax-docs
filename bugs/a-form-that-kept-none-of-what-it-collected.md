@@ -1,6 +1,6 @@
 # A form that kept none of what it collected
 
-**Found:** 2026-09-01 · **Fixed:** 2026-09-01 · **Repos:** `jtrax-admin` · **PRs:** #91, #92, #93
+**Found:** 2026-09-01 · **Fixed:** 2026-09-01 · **Repos:** `jtrax-admin`, `jtrax-backend` · **PRs:** admin #91, #92, #93, #94 · backend #40
 
 ## Symptom
 
@@ -120,6 +120,28 @@ being left for the office to diagnose.
 **When a fault cannot be reproduced, the next best change is the one that makes
 it report itself.**
 
+### Reported a third time, and the last shape it can be (#94)
+
+Same report again after #93, and still not reproducible — driven in a real
+browser against a real backend, every field saves and the age moves.
+
+So the console now checks its own work. The backend answers a `PATCH` with the
+row it wrote, so the save compares that against what it asked for and names any
+field that came back different — or is missing from the response entirely,
+which is a server that has never heard of the column and a different problem
+from one that ignored it.
+
+That closes the last gap. A **refusal** is a 4xx and says why. A write that is
+**accepted and does not take** is a 200 over an untouched row, a form that
+closes, and a screen showing what it showed before — indistinguishable from
+success, and the only shape left that matches the report once refusals, roles,
+the date format and a sleeping backend are all ruled out. Nothing was looking
+for it, because nothing had reason to think a 200 could lie.
+
+**A write is not verified by its status code.** Where the response carries the
+stored row, comparing it costs nothing and is the only check that catches this
+class of fault.
+
 ## Prevention
 
 A field that cannot be saved is a lie the screen tells every time it is opened,
@@ -129,6 +151,23 @@ reading it.
 
 Worth asking of any edit form: **for each field on it, name the column.** If
 there isn't one, it belongs in the read-only panel or nowhere.
+
+Two more went that way in #94, from the *read-only* panel this time — the same
+question applies to what a screen displays, not only to what it collects:
+
+- **Credits expire** is not a fact about a child. It belongs to the credits
+  that were bought and is counted from the payment that bought them, and a
+  child can hold several with different dates — so one row on their profile is
+  at best the latest and at worst a number the desk plans around. It is on the
+  Credits tab, per entry.
+- **The student's LINE ID** was never asked for at registration and had no
+  column. `studentLineId`, `studentLineIdNo` and `parentLineIdNo` were `""` on
+  every row and are gone from the type.
+
+**Branch** went the other way: the console had displayed it since it was built
+and never stored it, so backend `0024` gave it a column and registration now
+asks. A displayed field with no column is the same lie as an editable one — it
+just takes longer to notice.
 
 Related: [[credits-follow-the-child]], [[deleting-and-linking-people]],
 [[parents-section-student-email-and-password-reset]],
