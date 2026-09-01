@@ -1,6 +1,6 @@
 # Changing a child's course, in one act
 
-**Shipped:** 2026-09-02 · **Repos:** `jtrax-admin`, `jtrax-backend` · **PRs:** admin #95, #96 · backend #41
+**Shipped:** 2026-09-02 · **Repos:** `jtrax-admin`, `jtrax-backend` · **PRs:** admin #95, #96, #97 · backend #41
 
 The enrolment list has three actions: **Add**, **Change course** and
 **Delete**. A move records the course the child came from.
@@ -88,6 +88,33 @@ what the office had in mind.
 another. `enrolmentHasHistory` answers "can this be deleted *without doing
 anything else*" — reusing it as "should Delete be offered" quietly redefined
 the feature as "Delete, except when you need it".
+
+## The conversion broke, and it was a lookup not the arithmetic (#97)
+
+Reported a change later: moving credits from a dearer course to a cheaper one
+stopped producing more credits.
+
+`planTransfer` was never involved. It keeps the money and lets the hours change,
+and its own tests have covered both directions since it was written. What was
+wrong is **which package it was handed** for the course being moved into.
+
+That course has no enrolment yet, so its rate was asked for with an empty
+enrolment id — and `rateOf` compares `String(p["enrollment_id"] ?? "")` against
+it. Empty matches every payment that has *no* enrolment. So an empty id never
+meant "no payment"; it meant "the first detached payment on file", and the
+destination rate came off whatever package that one bought.
+
+**The trap was armed by the previous change.** Detached payments used to be
+rare. #96 made Delete null `enrollment_id` on an enrolment's payments so the
+receipt survives ([[payments-outlive-students]]) — which is right, and which
+means the more the office tidied the list, the more certainly the next
+conversion was computed against an unrelated course's price list. A feature
+that quietly degrades the longer it is used.
+
+**The shape worth remembering:** a sentinel that is also a legitimate stored
+value. `""` meant "there is no enrolment" to the caller and "this payment has
+no enrolment" to the data, and nothing in the type system could tell those
+apart. The fix is to not ask: skip the lookup when there is nothing to look up.
 
 ## Decisions made along the way
 
