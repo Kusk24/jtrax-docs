@@ -1,9 +1,9 @@
 # Changing a child's course, in one act
 
-**Shipped:** 2026-09-02 · **Repos:** `jtrax-admin`, `jtrax-backend` · **PRs:** admin #95 · backend #41
+**Shipped:** 2026-09-02 · **Repos:** `jtrax-admin`, `jtrax-backend` · **PRs:** admin #95, #96 · backend #41
 
-The enrolment list has four actions instead of two: Add, **Change course**,
-Withdraw and **Delete**. A move records the course the child came from.
+The enrolment list has three actions: **Add**, **Change course** and
+**Delete**. A move records the course the child came from.
 
 ## Why
 
@@ -38,6 +38,56 @@ The order is the whole design:
 
 Doing (3) first would have deleted an empty enrolment and taken the ledger's
 other half with it.
+
+## Withdraw and Move credits went (#96)
+
+Shipped first as five actions — Add, Move credits, Change, Withdraw, Delete —
+and the office cut it to three. They were right on both counts.
+
+**Withdraw had no job left.** The only reason to end an enrolment without
+starting another is that the record should not be there, and that is Delete.
+
+**Move credits had no home left.** Its arithmetic is what Change course needs,
+so it moved inside: the conversion at both rates, the half-credit rounding, the
+typed override, the prefilled expiry. One difference survives the move — the
+standalone dialog *refused* to proceed without a rate, because the transfer was
+the whole act and could wait for a typed figure. Inside a change it carries the
+balance across unconverted and says so: the office came to move a child, not to
+price a course, and blocking that is the software arguing with the reason it
+was opened.
+
+The one case the merge loses is shifting credits between two courses a child is
+*both* still in. Nobody has asked for it.
+
+## The Delete that was there and could not be seen (#96)
+
+Reported as *"I cannot find your delete button — did you even put it in?"* It
+was in the code, and it was invisible.
+
+It was gated on `!enrolmentHasHistory(id)` — the same rule `leaveClass` uses to
+decide between deleting and withdrawing. Correct for *that* decision, and
+exactly wrong here: **every row a change leaves behind carries the ledger entry
+that moved its credits out**, so the condition meant to protect those rows hid
+the button on precisely the rows the list needed tidying of.
+
+The fix is to do the work the condition was avoiding. Dependants go in the
+order the foreign keys allow:
+
+1. **Payments are detached, not deleted.** `payment.enrollment_id` is nullable
+   and a payment has carried its own `student_name` and `class_name` since
+   `0006` ([[payments-outlive-students]]) — it was built to outlive what it
+   points at, so a receipt still reads. Money is never deleted here.
+2. **Credit entries go with the row.** `credit_transaction.enrollment_id` is
+   NOT NULL, so they cannot be detached.
+
+The dialog counts both out loud first, because "tidying up the list" and
+"deleting a term of credit history" are the same click and only one of them is
+what the office had in mind.
+
+**The lesson:** a guard borrowed from one decision does not automatically fit
+another. `enrolmentHasHistory` answers "can this be deleted *without doing
+anything else*" — reusing it as "should Delete be offered" quietly redefined
+the feature as "Delete, except when you need it".
 
 ## Decisions made along the way
 
