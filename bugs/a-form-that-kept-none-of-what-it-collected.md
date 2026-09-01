@@ -1,6 +1,6 @@
 # A form that kept none of what it collected
 
-**Found:** 2026-09-01 · **Fixed:** 2026-09-01 · **Repos:** `jtrax-admin` · **PRs:** #91, #92
+**Found:** 2026-09-01 · **Fixed:** 2026-09-01 · **Repos:** `jtrax-admin` · **PRs:** #91, #92, #93
 
 ## Symptom
 
@@ -67,19 +67,27 @@ The Branch picker carried a comment warning that a mismatched list would
 "silently move them to the first option on save". That is precisely what the
 whole card was doing, to six fields at once.
 
-### Fix
+### Fix, and a correction to it (#93)
 
-The guardian block writes, and only what changed — most edits touch one field
-and each is a request. A cleared contact line is **deleted rather than
-blanked**: `parent_contact.value` is required, so an empty one is a row the
-backend refuses, and a blank phone number reads at the desk as "we have one".
-Batched with the child's own save, so correcting a family costs one refetch
-rather than six.
+The four phantom fields went. The ones that are real facts stay in the
+read-only panel, and the card says where a course is changed: the Enrolments
+tab, which moves the credits across with them ([[credits-follow-the-child]]).
 
-The four phantom fields are gone from the editor. The ones that are real facts
-stay in the read-only panel, and the card now says where a course is changed:
-the Enrolments tab, which moves the credits across with them
-([[credits-follow-the-child]]).
+The guardian block was first made to **write** (#92). That was the wrong half.
+A parent is their own record, *shared with their other children*, so editing
+their name or phone number from a child's page edits a person nobody is looking
+at — and silently rewrites what the sibling's page says too.
+
+What belongs to the child is the **link**: which parent, and how they are
+related. Both are stored on `student_parent` and nowhere else, and both stayed.
+The parent's own details are shown read-only with a way through to them, and
+`ParentsPage` gained a `detailId` so that link lands on the parent rather than
+on a list to search again.
+
+The lesson generalises past this form: **a field belongs on the screen that
+owns the row it writes.** "Convenient to edit here" and "this screen owns this
+fact" are different questions, and only the second one survives a shared
+record.
 
 ## A wrong turn worth recording
 
@@ -92,6 +100,25 @@ affected.
 **The lesson is cheap and kept costing:** before blaming a deployed service,
 check that the local one you are testing is the code you are reading.
 `git log -S '<the field>' -- <the file>` settles it in one command.
+
+## Still open: a report this did not explain
+
+The office reported after #92 that the date of birth *still* would not change.
+It could not be reproduced from here — driven in a real browser against a local
+backend on the same commit, every field on the card saves and the age moves.
+Ruled out with evidence: the deployed backend missing the column (landed
+2026-08-21, service deployed 2026-08-24), the service being asleep (`/health`
+in 0.24s, keep-alive green), the role (`isStaff` covers Admin and
+Receptionist), and the date format.
+
+So #93 also made a failed save **look failed**: the form stays open and carries
+what the server actually said with the status it said it with, instead of
+closing and dropping a four-second toast in a corner. A save that fails
+invisibly and a save that works are the same screen, and the difference was
+being left for the office to diagnose.
+
+**When a fault cannot be reproduced, the next best change is the one that makes
+it report itself.**
 
 ## Prevention
 
