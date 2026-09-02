@@ -1,6 +1,6 @@
 # Credits with no course
 
-**Shipped:** 2026-09-02 · **Repos:** `jtrax-admin`, `jtrax-backend` · **PRs:** admin #98 · backend #42
+**Shipped:** 2026-09-02 · **Repos:** `jtrax-admin`, `jtrax-backend` · **PRs:** admin #98, #99 · backend #42
 
 Hours a family paid for belong to the child, not to the enrolment row that
 recorded them. Deleting a course no longer deletes the balance.
@@ -37,6 +37,47 @@ The student page shows what is left over — *"13 credits not in any course"*,
 with the course they were bought for named — and a **Move into a course**
 action beside it, which is the old Move Credits with its arithmetic intact:
 both rates, the half-credit grid, a typed override, the expiry carried across.
+
+## The number left, and what it is worth (#99)
+
+Reported a change later: twenty hours of Beginner, moved to Intermediate and
+become 16.5, every course deleted, then Beginner joined again — and the console
+handed back **16.5**, not what that money buys.
+
+A loose balance is rarely one purchase. That ledger is three entries:
+
+```
++20    Beginner       bought
+−20    Beginner       moved out
++16.5  Intermediate   moved in
+```
+
+The *number* left is 16.5. What it is *worth* is Intermediate money. Those are
+different questions and only the second survives a move — and the console was
+answering the first, then labelling the answer with a course read off
+`looseCredits.at(-1)`. One arbitrary row standing in for the whole balance.
+
+**The bug was order-dependent, which is why it did not reproduce at first.**
+With an Intermediate row last it happened to be right; with a Beginner row
+last it priced Intermediate hours at Beginner's rate and the conversion became
+a no-op. Which row came last was the API's business. The first fixture written
+for it passed for that reason alone, and the test now asserts the answer across
+*every* ordering — a balance's worth must not depend on what order rows
+arrive in.
+
+`valueOfLots` prices every entry in its own course and sums the money;
+`creditsForValue` turns that into hours in the course being joined. The dialog
+shows the money in the middle, because a family shown two credit counts has no
+way to see why one is larger.
+
+Settling is one entry per course rather than one for the lot: a single −16.5
+row would have to name a course, and naming any of them files Intermediate
+hours under Beginner, priceable at the wrong rate for ever after.
+
+**The shape:** a derived field that is only correct when a collection is
+homogeneous, computed from an arbitrary member of it. It reads as a small
+convenience and is a silent correctness bug the moment the collection is mixed
+— and nothing in the types says the collection was ever meant to be uniform.
 
 ## Decisions made along the way
 
