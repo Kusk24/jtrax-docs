@@ -1,7 +1,7 @@
 # Settings in two columns
 
 **Shipped:** 2026-09-04 · **Repos:** `jtrax-admin` · **PRs:** #103 (reverted),
-#104, #105
+#104, #105, #106
 
 Settings is one tab whose page divides in two, the way the parent portal's
 settings screen does.
@@ -9,7 +9,7 @@ settings screen does.
 ```
 Settings
 ──────────────────────────────────────────────
-Academy Rules       │  LINE Official Account
+Academy Rules       │  LINE Official Account   ← both headed
   Low credit        │    token, secret,
   Expiring soon     │    webhook
   Inactive student  │
@@ -71,9 +71,15 @@ two flex columns, with the header above and the roster below.
   the rules. **Column balance is a property of the content's height, not of how
   evenly the blocks divide by count.** Appearance sits *below* the rules rather
   than above, because the thresholds are what the page is for.
-- **The theme's heading moved above its card** rather than sitting inside the
-  card's flex row, so both columns read the same way: a heading, then what it
-  names. It had been inside the card because it had no column to head.
+- **Both columns are headed, and their cards carry no title of their own
+  (#106).** The theme's heading moved out of its card's flex row; the LINE card
+  took `heading={false}` and dropped the title it printed inside itself. Each
+  had sat inside its card because it had no column to head. **A heading above a
+  card that opens with the same heading reads as two sections that happen to
+  share a name** — the same finding, and the same prop, as `LichessPanel` under
+  its page header in [[the-nav-loses-two-tabs]]. Without it the left column was
+  a titled section beside a loose card, and the two started at different
+  heights.
 
 ## Testing a layout without CSS
 
@@ -89,6 +95,11 @@ across broke it rather than sliding past, which is the whole reason to assert
 placement and not just presence. It now also checks Appearance *left* the
 column it came from — a block rendered into both would satisfy "is in the left
 column" perfectly well.
+
+The same trap in #106, guarded the same way: suppressing a card's heading while
+adding a column heading is exactly the change that ends up with **both**, and
+every other assertion still passes. `getAllByText(...).toHaveLength(1)` is the
+only one that fails.
 
 Geometry was measured in a real browser instead, at two widths, reading
 `getBoundingClientRect` rather than class names:
