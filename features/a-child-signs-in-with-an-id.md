@@ -1,8 +1,8 @@
 # A child signs in with an ID
 
 **Shipped:** 2026-09-03 · **Repos:** `jtrax-backend`, `jtrax-admin`,
-`jtrax-web-app`, `jtrax-mobile-app` · **PRs:** backend #43 · admin #101 ·
-web #52 · mobile #10
+`jtrax-web-app`, `jtrax-mobile-app` · **PRs:** backend #43, #44 ·
+admin #101, #102 · web #52 · mobile #10
 
 A student's login is `stu_penny_ward`, not `penny.ward@student.jca.ac.th`. And
 the Membership row is gone, because the academy has never had one.
@@ -133,19 +133,66 @@ a laptop; the whole task on a phone, which is where a child actually types this.
 - **The students search matches the ID**, since it is now the thing a family
   arrives holding, printed on their card.
 
-## Consequence worth stating
+## Who lets them back in (#44, #102)
 
-**A child with an ID cannot reset their own password.** There is nowhere to
-send a link. This is not a regression — the invented address could not receive
-one either — but it is now honest rather than hidden, and the office does it
-for them.
+The consequence above — *a child with an ID cannot reset their own password* —
+was answered next: **the office does it, and the office means an admin.**
+
+Setting somebody else's password is the one write on the accounts endpoint that
+**hands over an account** rather than editing a record. Whoever types the new
+password can sign in as that person, read every family's details and act as
+them. That is a different kind of authority from booking a class, and it sits
+with the people who already hold the rest of it.
+
+What is *not* restricted matters as much:
+
+- **Creating an account is untouched.** Registration is the front desk's actual
+  job, and a brand-new account belongs to nobody yet — there is nothing to take
+  over. The restriction is about seizing an existing account, not about issuing
+  a new one.
+- **Changing your own password is always allowed**, or the rule locks a
+  receptionist out of the one account they are entitled to.
+
+The console hides the button for a receptionist rather than disabling it: a
+disabled control invites asking why, and the answer is not something the front
+desk can fix. **The check that matters is the server's** — the UI is a
+courtesy, and the test asserts the 403 as well as the missing button.
+
+The dialog shows the new password **beside the identifier it goes with**. A
+password alone is half of what a family needs to write down, and the desk
+cannot look the other half up afterwards, because the password is never shown
+again.
+
+The staff screen keeps its existing reset *link* alongside, relabelled **Send
+reset link**. Two routes that fail in different ways: the link is better,
+because it never puts a password in a colleague's hands, but it needs a mailbox
+the person can actually reach — and "I never got the email" is precisely why
+somebody is standing at the desk.
+
+## The parent's address is their login (#102)
+
+The follow-up above got its answer at the same time, and it is the same defect
+one entity over.
+
+Registration used to fall back to a made-up `@parent.jca.ac.th` when the email
+box was left empty. **Less excusable than the children's version, because a
+parent has a mailbox** — the fiction bought nothing and cost the reset link. An
+adult who could have let themselves back in was quietly given an address that
+receives nothing.
+
+The field is required now, and says so. The fallback is gone, and so is the
+"this address was made up" note that had nothing left to warn about.
+
+Rows written *before* the change still carry an invented address, and nothing
+about such a row says the link will not work for it. The Parents screen now
+says so, in the one place it can be fixed. **A migration cannot help here**:
+unlike a student's ID, which is derivable from a name, nobody can invent a
+parent's real address — only the family can supply it.
 
 ## Follow-ups
 
-- [ ] Parents given at the desk still get `@parent.jca.ac.th`, the same fiction
-      one entity over. It has more excuse (an adult may supply a real address
-      later, and the dialog says the made-up one can't be written to) but it is
-      the same trick and should probably go the same way.
+- [x] ~~Parents given at the desk still get `@parent.jca.ac.th`~~ — done in
+      #102, above.
 - [ ] Public tournament registration matches a returning student on
       `user_account.email`. A child with an ID will never match — they could
       not have matched with an unguessable invented address either, so nothing
