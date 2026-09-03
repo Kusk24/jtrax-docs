@@ -96,11 +96,14 @@ Geometry was measured in a real browser instead, at two widths, reading
 ```
 admin @ 1440   columns "572px 572px"
                Academy Rules left 256 top 162
-               Appearance    left 844 top 162   → side by side
-               Admins        left 256 top 857   → below both
+               Appearance    left 256 top 664   → same column, under the rules
+               Admins        left 256 top 830   → below both columns
 admin @  800   columns "772px"                  → stacked
 desk  @ 1440   no grid, Appearance alone
 ```
+
+(The LINE form is the right column, at `left 844`. The run above measured
+Appearance there before #105 moved it.)
 
 **A class name is not a layout.** `.jt-duo` was present at 800px too — the grid
 collapses to one column by media query, so asserting the class would have
