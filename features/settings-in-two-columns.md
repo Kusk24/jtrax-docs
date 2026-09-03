@@ -1,7 +1,7 @@
 # Settings in two columns
 
 **Shipped:** 2026-09-04 · **Repos:** `jtrax-admin` · **PRs:** #103 (reverted),
-#104
+#104, #105
 
 Settings is one tab whose page divides in two, the way the parent portal's
 settings screen does.
@@ -9,12 +9,15 @@ settings screen does.
 ```
 Settings
 ──────────────────────────────────────────────
-Academy Rules       │  Appearance
-  Low credit        │    Auto | Light | Dark
-  Expiring soon     │
-  Inactive student  │  LINE Official Account
-  Certificate       │    token, secret, webhook
+Academy Rules       │  LINE Official Account
+  Low credit        │    token, secret,
+  Expiring soon     │    webhook
+  Inactive student  │
+  Certificate       │
   Reset / Save      │
+                    │
+Appearance          │
+  Auto|Light|Dark   │
 ──────────────────────────────────────────────
 Admins                          (full width)
 ```
@@ -61,6 +64,13 @@ two flex columns, with the header above and the roster below.
   Admins run wide — so the columns inherited it rather than inventing it.
 - **A receptionist gets no grid at all.** Only Appearance is theirs, and one
   card beside an empty half reads worse than one column.
+- **The two short blocks stack against the tall one (#105).** The first split
+  put Appearance beside the rules and left LINE alone, which read as balanced
+  on paper and was not: the rules and Appearance are both short and LINE is a
+  tall form, so one column ended a long way above the other with a hole under
+  the rules. **Column balance is a property of the content's height, not of how
+  evenly the blocks divide by count.** Appearance sits *below* the rules rather
+  than above, because the thresholds are what the page is for.
 - **The theme's heading moved above its card** rather than sitting inside the
   card's flex row, so both columns read the same way: a heading, then what it
   names. It had been inside the card because it had no column to head.
@@ -73,6 +83,12 @@ one, that the roster is outside them, and that "Appearance" is printed exactly
 once. That last one is a duplicate-heading guard: the heading moved, and the
 version where it moved *and* stayed would have looked fine to every other
 assertion.
+
+The which-column-holds-what assertion earned itself in #105: moving Appearance
+across broke it rather than sliding past, which is the whole reason to assert
+placement and not just presence. It now also checks Appearance *left* the
+column it came from — a block rendered into both would satisfy "is in the left
+column" perfectly well.
 
 Geometry was measured in a real browser instead, at two widths, reading
 `getBoundingClientRect` rather than class names:
