@@ -1,6 +1,6 @@
 # Credits with no course
 
-**Shipped:** 2026-09-02 · **Repos:** `jtrax-admin`, `jtrax-backend` · **PRs:** admin #98, #99 · backend #42
+**Shipped:** 2026-09-03 · **Repos:** `jtrax-admin`, `jtrax-backend` · **PRs:** admin #98, #99, #100 · backend #42
 
 Hours a family paid for belong to the child, not to the enrolment row that
 recorded them. Deleting a course no longer deletes the balance.
@@ -78,6 +78,51 @@ hours under Beginner, priceable at the wrong rate for ever after.
 homogeneous, computed from an arbitrary member of it. It reads as a small
 convenience and is a silent correctness bug the moment the collection is mixed
 — and nothing in the types says the collection was ever meant to be uniform.
+
+## A move must not mint hours (#100)
+
+Reported next, and it is the same balance seen from the other side: *moving 20
+Beginner credits to Master gives 13-something, but moving them back gives
+**20.5** — the system is giving away half a credit.*
+
+```
+20 credits of Beginner (600/hr)  = 12,000 THB
+  -> Master (900/hr):  13.33, nearest = 13.5    worth 12,150   (+150 THB)
+  -> Beginner:         20.25, nearest = 20.5
+```
+
+Twenty hours in, twenty and a half out. The conversion had been rounding to
+**nearest**, and nearest rounds *up* whenever the remainder is a quarter credit
+or more — which is most remainders. Each hop then compounds the one before it,
+so a round trip is a pump: repeat it and the balance climbs without anyone
+paying.
+
+The direction has now been changed twice, so the whole history is in the
+docstring of `floorToHalfCredit` rather than only in this note. Up first,
+rejected for handing out half an hour a move. Nearest second, on the theory
+that it evens out. **It does not, because a conversion is not a measurement —
+it is an exchange.** A measurement rounded to nearest is unbiased about a true
+value that already exists; a rate conversion rounded up invents money that was
+never paid, and the next conversion prices the invention as real.
+
+Down is the only direction with the property that matters: **a conversion never
+creates value.** What lands is always worth no more than what left, so no
+sequence of moves can mint hours. Two tests pin it — a property test over every
+rate pair × balance asserting `credits × toRate <= value`, and a twelve-hop
+pump that must never exceed where it started.
+
+The floor goes through hundredths before halving. `19.5 * 2` is
+`38.99999999999999` in binary floating point, and flooring that raw costs half
+a credit for a value that ought to be exact; snapping to the hundredth first
+removes the representation error without touching any real remainder, because
+nothing here is priced below a hundredth of an hour. **A floor makes every
+floating-point error one-directional and permanent, which a nearest-round was
+hiding.**
+
+The trade-off is now the family's, not the academy's: 20 → 13 → 19.5, so up to
+half a credit is lost per move rather than gained. That is bounded per move and
+in the direction that cannot be exploited. Exact round trips would need the
+ledger to carry the *value* in baht alongside the count — offered, not built.
 
 ## Decisions made along the way
 
