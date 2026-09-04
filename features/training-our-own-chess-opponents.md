@@ -248,6 +248,36 @@ Serving note: the novice graph has **no KV cache**, so every sampled character
 re-runs the whole sequence. Measure it in the Play screen before assuming it is
 fast enough.
 
+### On the phone — same models, ONNX in a WebView
+
+The web app runs onnxruntime-web directly. The Expo app cannot: Hermes has no
+WebAssembly, which is also why Stockfish already runs in a hidden WebView there
+(`StockfishWebView`). So the two trained models run in a second hidden WebView
+(`OnnxWebView`), and the phone runs the **same** `.onnx` graphs the web serves.
+
+What differs from the web path, and what does not:
+
+- **The encoding is shared, not re-implemented.** `maia-encode.ts` and
+  `pgn-prompt.ts` are byte-identical copies of the web files — the 18×8×8 board,
+  the Black-to-move mirror, the PGN prompt format — so the 21 encoding tests in
+  the web app cover the phone too. Encoding runs in React Native (pure TS);
+  only the forward pass crosses into the WebView. Keeping the bug-prone part in
+  one tested place is worth a few extra `postMessage` round trips.
+- **Nothing is bundled.** onnxruntime-web, its `.wasm` and both models are all
+  fetched over HTTPS from `EXPO_PUBLIC_MODEL_BASE_URL` — the same host the web
+  app can point `NEXT_PUBLIC_MODEL_BASE_URL` at. With no URL set the two trained
+  opponents report unavailable and Stockfish still works, so the screen degrades
+  rather than breaks. The app repo carries none of the 73 MB.
+- **The novice per-character loop is chattier here.** With no KV cache, each of
+  the ~5–8 characters per move is a separate RN→WebView→RN round trip carrying
+  the growing token window. Fine for a turn-based game; worth remembering if it
+  ever feels slow.
+
+Verified by typecheck, a full Metro bundle (the graph resolves and the modules
+reach the shipped Hermes bytecode), and the shared encoding being identical to
+the tested web copy. **Not** yet verified on a device — that needs the models
+hosted at a reachable URL and a simulator, and is the remaining step.
+
 ## Decisions made along the way
 
 - **Train the novice from scratch, not fine-tune.** Fine-tuning
