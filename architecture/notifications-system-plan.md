@@ -1,7 +1,23 @@
 # Notifications — current state and plan
 
-**Date:** 2026-08-21 · **Status:** planned, not built · **Repos:** all four
-**Owner:** to be picked up by someone else — this note is the handover.
+**Date:** 2026-08-21 · **Updated:** 2026-09-05 · **Status:** backend backbone
+**built** (step 1), frontends + push pending · **Repos:** all four
+
+> **2026-09-05 — the backbone landed.** `jtrax-backend` PR #45 built step 1 of
+> the build order below: the `notification` / `notification_delivery` /
+> `notification_setting` / `push_subscription` schema (migration 0018,
+> keyed on `user_account_id` as this note recommended), the `internal/notify`
+> service, per-user preference and inbox endpoints, and the three triggers the
+> academy asked for — check-in/out (post-commit hook on attendance),
+> announcement fan-out, and a **manual, staff-only** credit-expiry trigger.
+> Email is wired through the existing `mail` package and stays inert until SMTP
+> is configured. Browser and mobile push are scaffolded (subscriptions register,
+> deliveries queue `pending`) but the send workers are not inlined — still "a
+> different risk class", still wanting a reviewed library. Verified by five
+> tests driving the real HTTP flow. **Still to do:** the in-app inboxes and
+> Settings UI in the web + mobile apps (replacing today's mocks), and the push
+> send paths. The old parent-only `notification_preference` is left inert, not
+> dropped (migrations are append-only).
 
 The academy wants notifications for **parents, students and admins**, over
 **three channels: browser (web) push, email, and an in-app inbox**, with each
