@@ -1,10 +1,10 @@
-# Dashboard KPIs drawn, not just counted
+# Admin dashboard: visual KPIs to daily workspace
 
-**Shipped:** 2026-09-08 · **Repos:** `jtrax-admin` · **PR:** #109
+**Shipped:** 2026-09-08; reshaped 2026-09-10 · **Repos:** `jtrax-admin` · **PRs:** #109, #114
 
-The four KPI tiles on the admin dashboard now repeat their number as a small
-drawing along the tile's bottom edge — the desk reads the shape before the
-digit.
+The admin dashboard now leads with revenue and an actionable student-status
+visual, then puts quick actions, today's check-ins and today's classes into one
+compact daily workspace.
 
 ## Why
 
@@ -14,6 +14,35 @@ number". A count hides its composition: "12 checked in" reads the same at
 the same whether the roster is healthy or half of it has lapsed.
 
 ## How it works
+
+### Reference-layout pass — PR #114 (current)
+
+The client reference showed that the September KPI pass still repeated too
+much information. PR #114 removes the separate revenue, follow-up, roster,
+attendance, course and payment chart stack from the home route. The current
+structure is:
+
+- `components/dashboard/DashboardHome.tsx:46` — revenue and student status at the
+  top, quick actions next, then check-ins and today's classes side by side on
+  wide screens.
+- `components/dashboard/StudentStatus.tsx:26` — five concentric status rings. Each
+  localized legend row is a real link to `/students?status=<status>`, so the
+  visual is also the route into the affected roster rather than a passive chart.
+- `components/dashboard/TodaysClasses.tsx:145` — two class cards remain static; only
+  a third or later card makes the class region independently scrollable. Zero
+  classes and zero check-ins have explicit empty states matching the supplied
+  reference.
+- `components/JtraxShell.tsx:264` and `app/globals.css:817` — the desktop sidebar is a
+  compact icon rail by default, expands on demand, and exposes localized
+  hover/focus tooltips while collapsed. Phone and tablet navigation remains the
+  horizontal strip.
+
+The behavior is covered in
+`components/dashboard/DashboardReferenceLayout.test.tsx`. Browser verification
+covered 390 px, 768 px and 1280 px, English and Thai, light and dark themes,
+the status deep-link filter, and the two-class no-scroll rule.
+
+### Original visual KPI pass — PR #109 (historical)
 
 Each tile keeps its icon, number and sub-line, and gains one visual drawn from
 data `DataProvider` already holds — no new fetches, no chart library, plain
@@ -55,9 +84,8 @@ Every drawing carries a `role="img"` with a localized aria-label, EN + TH
 
 ## Follow-ups
 
-- [ ] The revenue tile's bars slightly duplicate the six-month `RevenueTrend`
-  card below it; if the big chart ever grows richer (per-day bars, package
-  split), the tile could show this month's daily takings instead.
+- [x] ~~The revenue tile's bars duplicated the six-month `RevenueTrend` card.~~
+  PR #114 removed the large repeated chart and kept one compact revenue shape.
 
 Related: [[admin-console-ux-pass]], [[backend-crud-and-live-portals]]
 
