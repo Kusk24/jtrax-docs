@@ -1,0 +1,137 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+  @page { size: A4 portrait; margin: 0; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 13mm 14mm;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #355575; font-size: 9.1pt; line-height: 1.34;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  h1 { margin: 0; font-size: 16.5pt; color: #24417C; letter-spacing: -.2px; }
+  .sub { margin: 2.5mm 0 0; font-size: 8.6pt; color: #6B7C93; }
+  hr { border: 0; border-top: 1px solid #D8E2F0; margin: 3.5mm 0; }
+
+  .warn {
+    border: 1px solid #E4B9B9; background: #FCF4F4; border-radius: 2.4mm;
+    padding: 3mm 3.5mm; margin: 0 0 4mm;
+  }
+  .warn b { color: #9D4343; }
+
+  h2 {
+    margin: 4mm 0 2mm; font-size: 9.4pt; color: #24417C;
+    text-transform: uppercase; letter-spacing: .09em;
+  }
+  table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  td { padding: 1.5mm 0; vertical-align: top; border-top: 1px solid #EDF2F9; }
+  tr:first-child td { border-top: 0; }
+  td.n { width: 15mm; white-space: nowrap; }
+  td.w { width: 36mm; padding-right: 4mm; }
+  .pr { font-weight: 700; color: #24417C; }
+  .t { font-weight: 600; color: #24417C; }
+  .note { color: #6B7C93; }
+  .tag {
+    display: inline-block; padding: .3mm 1.4mm; border-radius: 1mm;
+    font-size: 7.1pt; font-weight: 700; letter-spacing: .04em;
+    background: #EEF3FB; color: #5A6E8C; margin: 1mm .8mm 0 0;
+  }
+  .tag.other { background: #F3EEF9; color: #6B5A8C; }
+  .tag.stack { background: #FBF2E6; color: #8A6420; }
+  .foot {
+    margin-top: 4mm; border-top: 1px solid #D8E2F0; padding-top: 3mm;
+    font-size: 8.4pt; color: #6B7C93;
+  }
+  .foot b { color: #24417C; }
+  code { font-family: "SF Mono", Menlo, monospace; font-size: 8pt; color: #24417C; }
+</style></head>
+<body>
+
+<h1>JTrax — open pull requests</h1>
+<p class="sub">Eleven open across three repositories · as of 10 September 2026 · <span class="note">“other session” marks work not from this thread</span></p>
+
+<div class="warn">
+  <b>⚠ Merge #50 first.</b> Backend #48 is marked merged but its code never reached <code>main</code> — it was
+  stacked on #47, which merged first, so #48 landed in a branch that was already dead.
+  Until #50 goes in, none of the new notification types exist, and admin #112 writes settings that #50 is what reads.
+</div>
+
+<h2>jtrax-backend</h2>
+<table>
+  <tr>
+    <td class="n"><span class="pr">#50</span></td>
+    <td class="w"><span class="t">Land the notification set</span></td>
+    <td>Recovers the stranded work: credit-deduction notice at check-out, opt-in low-credit nudge, payment receipts, and the school-wide per-type on/off switch.</td>
+  </tr>
+  <tr>
+    <td class="n"><span class="pr">#49</span></td>
+    <td class="w"><span class="t">Tournament entry hardening</span></td>
+    <td>Early-bird fee gains a deadline so it can finally be charged; regulation PDFs stored and served to parents; student ID verified on public entry; “U8” categories enforce the age on the tournament’s start day.</td>
+  </tr>
+</table>
+
+<h2>jtrax-admin — the console</h2>
+<table>
+  <tr>
+    <td class="n"><span class="pr">#112</span></td>
+    <td class="w"><span class="t">Notification switchboard</span></td>
+    <td>Settings gains six switches, one per notification type — the admin decides what the school sends at all. A parent’s own toggle is a separate question; both must be on.</td>
+  </tr>
+  <tr>
+    <td class="n"><span class="pr">#110</span></td>
+    <td class="w"><span class="t">Send credit reminders</span></td>
+    <td>A button on the dashboard’s follow-up card. Manual by design — confirms first, and nothing reaches a parent unless someone presses it.</td>
+  </tr>
+  <tr>
+    <td class="n"><span class="pr">#111</span></td>
+    <td class="w"><span class="t">Card payment link</span></td>
+    <td>A pending payment produces a Stripe checkout link for the desk to send. Paying settles the payment and releases its credits automatically.</td>
+  </tr>
+  <tr>
+    <td class="n"><span class="pr">#113</span></td>
+    <td class="w"><span class="t">Tournament creation</span></td>
+    <td>Real date pickers instead of free text (dates were reaching the database as NULL), early-bird fee and its window, and the uploaded regulation kept and viewable.</td>
+  </tr>
+  <tr>
+    <td class="n"><span class="pr">#114</span></td>
+    <td class="w"><span class="t">Reference dashboard</span><br><span class="tag other">other session</span></td>
+    <td>Rebuilds the dashboard to the approved design: status rings that link into the filtered roster, compact icon sidebar. Largely supersedes the earlier chart work.</td>
+  </tr>
+  <tr>
+    <td class="n"><span class="pr">#115</span></td>
+    <td class="w"><span class="t">Reference tournament UI</span><br><span class="tag other">other session</span><span class="tag stack">stacked</span></td>
+    <td>Tournament screens to the approved design, plus round-by-round results from chess-results.com. <b>Targets #113</b>, not main.</td>
+  </tr>
+</table>
+
+<h2>jtrax-web-app — parent &amp; student portals</h2>
+<table>
+  <tr>
+    <td class="n"><span class="pr">#55</span></td>
+    <td class="w"><span class="t">Parent inbox goes live</span></td>
+    <td>The portal reads the real notification backbone instead of re-deriving alerts from attendance stamps. Six per-type toggles, with low credit off by default and opt-in.</td>
+  </tr>
+  <tr>
+    <td class="n"><span class="pr">#56</span></td>
+    <td class="w"><span class="t">Parent portal fixes</span></td>
+    <td>The “black profile” — a child with no photo drew a blank block — now shows a monogram. The near-empty home page carries children and today’s activity again.</td>
+  </tr>
+  <tr>
+    <td class="n"><span class="pr">#57</span></td>
+    <td class="w"><span class="t">Public registration</span></td>
+    <td>Age-gated categories that grey out what the server would refuse, a student-ID field the academy actually checks, and a link to read the organiser’s regulation.</td>
+  </tr>
+  <tr>
+    <td class="n"><span class="pr">#58</span></td>
+    <td class="w"><span class="t">Reference portal UI</span><br><span class="tag other">other session</span><span class="tag stack">stacked</span></td>
+    <td>Student and parent surfaces to the approved mobile design, with real account, attendance and Lichess flows preserved. <b>Targets #56</b>, not main.</td>
+  </tr>
+</table>
+
+<div class="foot">
+  <b>Suggested order</b> — #50, then #49, then #112, then the rest; the two stacked PRs last.<br>
+  <b>Stacked PRs need retargeting.</b> When a parent merges, GitHub will not move its child to <code>main</code>.
+  Run <code>gh pr edit 115 --base main</code> and <code>gh pr edit 58 --base main</code> at that moment — this is exactly how #48’s commits went missing.
+</div>
+
+</body></html>
