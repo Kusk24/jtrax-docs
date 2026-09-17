@@ -2,6 +2,12 @@
 
 **Date:** 2026-08-20 · **Repo:** `jtrax-backend` · **PR:** #30
 
+> **No longer applies as of 2026-09-16.** The backend moved off Render to AWS
+> Lightsail ([[jtrax-on-lightsail]]), and a Lightsail instance does not sleep.
+> `keep-alive.yml` is now dead weight in `jtrax-backend` and should be deleted.
+> The finding about GitHub running scheduled workflows late is still true and
+> still worth remembering for any other cron.
+
 Slow page loads on the deployed portals were the backend cold-starting, not the frontends: production builds of the student screens load in 57–68ms with <10KB of JS.
 
 ## The finding

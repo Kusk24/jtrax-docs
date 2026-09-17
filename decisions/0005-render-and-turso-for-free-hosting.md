@@ -1,6 +1,11 @@
 # Host the backend on Render (free Docker) with Turso as the database
 
-**Date:** 2026-08-13 · **Status:** accepted
+**Date:** 2026-08-13 · **Status:** superseded by [[jtrax-on-lightsail]]
+
+> **Superseded on 2026-09-16** by the move to AWS Lightsail —
+> see [[jtrax-on-lightsail]]. The context below is still the best record of why
+> free hosting was chosen originally, and of the SQLite-shaped constraints that
+> made a pure-Go binary easy to rehost. A replacement ADR has not been written yet.
 
 ## Context
 

@@ -2,6 +2,11 @@
 
 **Date:** 2026-08-13 · **Environment:** production
 
+> **Superseded for production as of 2026-09-16.** JTrax now runs on a single AWS
+> Lightsail instance — see [[jtrax-on-lightsail]]. Render and Turso are no longer
+> the deployment target. This note is kept for the Turso/Render specifics and the
+> seeding and migration behaviour, which still apply wherever the backend runs.
+
 ## What this covers
 
 Getting the Go API onto Render with a Turso database, and pointing the two
