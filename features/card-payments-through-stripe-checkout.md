@@ -54,10 +54,12 @@ Requires the academy's business registration documents at Stripe signup.
 
 ## Follow-ups
 
-- [ ] Parent-side "pay now" in the web app portal (link already exists on the
-  payment row; the portal could surface it instead of the desk copying it).
+- [x] Parent-side "pay now" — done 2026-09-15 for tournament entry fees, by a
+  parent-only door onto the same `checkoutLink` →
+  [[a-parent-pays-a-tournament-fee]]. Course fees still go through the desk.
 - [ ] A "payment received" notification to the parent via [[notifications-backbone]].
 
-Related: [[credits-follow-the-child]], [[notifications-backbone]]
+Related: [[credits-follow-the-child]], [[notifications-backbone]],
+[[a-parent-pays-a-tournament-fee]]
 
 Tags: #feature #payments #backend #admin #security
