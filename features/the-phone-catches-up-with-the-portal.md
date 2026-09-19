@@ -126,8 +126,9 @@ Go backend with a seeded database, not typechecked and assumed:
 
 - [ ] **Set `MOBILE_URL` on the deployed backend** once #55 lands, or the
       Lichess grant links the account without returning into the app.
-- [ ] **The parent portal is still a generation behind** — the portal's `pv2`
+- [x] **The parent portal is still a generation behind** — the portal's `pv2`
       rewrite has not been ported. This work covered the student side only.
+      Ported in [[the-phone-gets-the-parent-portal]] (mobile #21, 2026-09-20).
 - [ ] **No component tests on the phone.** The runner added in #12 is
       deliberately `src/lib`-only; rendering a NativeWind screen needs a preset
       and a mock per native module. `jtrax-web-app` has the same gap.
