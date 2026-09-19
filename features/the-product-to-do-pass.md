@@ -65,6 +65,9 @@ and the page read as "nothing is happening".
 - **Early bird and the student discount never stack.** Early bird is for
   outside participants; the student discount comes off the *regular* fee.
   The PDF asked what the student discount was for; this is the answer.
+  *Superseded 2026-09-20:* the organiser now chooses per tournament — discount,
+  early bird, both or neither — with this rule as the default. See
+  [[a-parent-pays-a-tournament-fee]].
 - **Verified student IDs cost some anonymity.** The original public
   registration deliberately did not check the claim, so the endpoint could
   not be used to discover who is a pupil. Checking reintroduces that: a
