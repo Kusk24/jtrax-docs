@@ -61,7 +61,10 @@ Layout: `~/apps/<repo>` (repos at `origin/main`), `~/apps/ecosystem.config.js`,
 
 Routine deploys afterwards: `./deploy.sh [all|api|web|admin]` from the JTrax folder.
 It always deploys `origin/main`, never the working tree, and smoke-tests four
-endpoints at the end.
+endpoints at the end. Since 2026-09-20 the smoke test goes through nginx on 443 by
+hostname (`curl --resolve`); before that it still checked web on `:80` and admin
+on `:8080`, which stopped being true when TLS went in. Migrations run by
+themselves when the new backend starts — there is no separate migrate step.
 
 ## Gotchas
 
@@ -95,9 +98,9 @@ confirmed swap remounts, pm2 resurrects all three, and all four endpoints return
 
 ## Still open
 
-- **No TLS.** Everything is plain HTTP, including the admin login, which posts a
-  password in the clear. This is the top outstanding risk and blocks real use.
-  Needs a domain first — there is none yet.
+- ~~**No TLS.**~~ Resolved 2026-09-17: all three hostnames serve 443 with
+  Certbot certificates on `sslip.io` names (see Gotchas). A real domain is still
+  worth having — `sslip.io` names follow the IP.
 - **SQLite has only the daily Lightsail snapshot behind it.** Litestream to S3 is
   not set up, and no restore has ever been tested.
 - **SSH is open to the world** on 22; it should be restricted to a known address.
