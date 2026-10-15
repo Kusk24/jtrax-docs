@@ -38,6 +38,7 @@ This is the product's first endpoint where a stranger creates a row. Four things
 - **The quote is stored, not recomputed.** A fee is a promise made at a moment; editing the tournament's price later must not rewrite what somebody was told they owed.
 - **Rejected rows are kept.** A blanket unique constraint would mean one rejection bars a child from the event forever, so the index skips them.
 - **No online payment.** JTrax records payments, it does not take them. The form quotes a fee and says plainly not to pay until the academy confirms.
+  *Superseded 2026-09-24:* a public entrant can now pay online, from the done screen or the emailed pay link → [[a-public-entrant-pays-online]].
 
 ## Follow-ups
 

@@ -162,13 +162,14 @@ refuse".
 - [ ] Age groups cannot be edited after creation. A typo, or a group added once
   entries are in, has nowhere to be fixed. The editor moved wholesale when it
   could have been added in both places.
-- [ ] The academy's form also collects a **payment slip** — bank transfer,
+- [ ] *(Online payment done 2026-09-24 → [[a-public-entrant-pays-online]]; a place for a bank-transfer slip is still missing.)* The academy's form also collects a **payment slip** — bank transfer,
   early bird 1,000 THB to 28 Sep, late 1,200 THB after. JTrax still only
   *quotes* a tournament fee and has nowhere to put proof of payment, even
   though Stripe Checkout shipped for class credits on 2026-09-09. The "no
   online payment" decision in [[public-tournament-registration]] predates that
   rail by three weeks and has never been revisited.
-- [ ] Nothing still emails a registrant. Under approval that was a missing
+- [x] Nothing still emails a registrant. *Done 2026-09-24: a confirmation with the pay link* → [[a-public-entrant-pays-online]].
+  Original note: Under approval that was a missing
   confirmation; now it is the *only* message they would ever get, and the
   gap is wider rather than narrower →
   [[public-tournament-registration]].
