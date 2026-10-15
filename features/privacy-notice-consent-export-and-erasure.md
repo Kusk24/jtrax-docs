@@ -1,6 +1,6 @@
 # Privacy notice, consent records, data export and erasure
 
-**Shipped:** 2026-10-15 (merged, not yet deployed) · **Repos:** all four · **PR:** backend #118, #119, #120, #121 · web #116, #117, #118 · admin #184 · mobile #70, #71
+**Shipped:** 2026-10-15 (deployed 2026-10-15) · **Repos:** all four · **PR:** backend #118, #119, #120, #121 · web #116, #117, #118 · admin #184 · mobile #70, #71
 
 What changed:
 - Families can now read a privacy notice.
@@ -49,7 +49,7 @@ The user asked for the four PDPA gaps to be built after the audit. The Act's sec
 - [ ] The academy approves the notice's wording; bump the version in all three places.
 - [ ] The academy chooses retention periods and sets the `JTRAX_RETAIN_*` variables in the backend `.env`.
 - [x] Consent records in the export (backend #121) and the privacy tick in the parent tournament flow (web #118, mobile #71). Held back until the first PRs merged, so none had to be stacked.
-- [ ] Deploy. The production database was backed up to `~/data/jtrax-pre-2026-10-15.db` first; migrations 0080 and 0081 run on start.
+- [x] Deployed 2026-10-15. The production database was backed up to `~/data/jtrax-pre-2026-10-15.db` first; migrations 0080 and 0081 applied, `/privacy` live, the new routes answer 401 without a session, and the first retention sweep left no expired sessions or stale ID reads.
 - [ ] Confirm the Gemini key is on a paid tier, because free-tier prompts may be used for training.
 - [ ] Write a breach-response runbook in `ops/`.
 

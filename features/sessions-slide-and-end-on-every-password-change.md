@@ -1,6 +1,6 @@
 # Sessions slide while in use, and every password change ends them
 
-**Shipped:** 2026-10-15 (merged, not yet deployed) · **Repos:** `jtrax-backend`, `jtrax-web-app` · **PR:** backend #115, #116 · web #114
+**Shipped:** 2026-10-15 (deployed 2026-10-15) · **Repos:** `jtrax-backend`, `jtrax-web-app` · **PR:** backend #115, #116 · web #114
 
 A session now lasts as long as it is used, up to 90 days, instead of a fixed
 30 days. A session left idle for 14 days ends. When an admin sets someone's
@@ -65,8 +65,7 @@ These came out of a review of how data is secured, on 2026-10-15. Two gaps:
 
 ## Follow-ups
 
-- [ ] Deploy backend and web together, or web first. The order does not break
-      anything. Merged 2026-10-15; deploy pending.
+- [x] Deployed 2026-10-15 with `./deploy.sh all`; smoke test 4/4.
 - [ ] Mobile `.env` git-ignored: #68 was closed in favour of the same change as a local commit on mobile `main`, which still has to reach GitHub. Only
       `EXPO_PUBLIC_API_URL` and `EXPO_PUBLIC_MODEL_BASE_URL` are read, and
       both are public URLs. No secrets belong in that app's env, because

@@ -1,6 +1,6 @@
 # URL state: refresh and Back keep you where you were
 
-**Shipped:** 2026-10-15 (merged, not yet deployed) · **Repos:** `jtrax-web-app`, `jtrax-admin`, `jtrax-mobile-app` · **PR:** web #115 · admin #183 · mobile #69
+**Shipped:** 2026-10-15 (deployed 2026-10-15) · **Repos:** `jtrax-web-app`, `jtrax-admin`, `jtrax-mobile-app` · **PR:** web #115 · admin #183 · mobile #69
 
 Refreshing a page, pressing Back, or opening a shared link now lands on the same screen: the open record, its tab, a wizard step, the filters, the page of a list. Before, all of these went back to the start.
 
