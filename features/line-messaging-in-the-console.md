@@ -113,6 +113,16 @@ Full detail in `jtrax-backend/docs/line-messaging.md`.
   hours out.
 - **Text is capped in runes, not bytes.** Thai is three bytes a character; a byte
   limit would cut a valid message to a third of its length.
+- **An SSE handler must write something before it waits.** Go does not send
+  the headers until the first write, and the inbox stream originally waited
+  for its first event or the 25-second heartbeat. The console read the silence
+  as a dead connection and sat on "Reconnecting…". It now sends the current
+  list the moment a client connects (jtrax-backend `4c3bfc5`, 2026-10-05),
+  which also fills in anything missed during a reconnect. The game-room stream
+  never had this bug because it already sent the room state on connect.
+- **The webhook address shown in Settings comes from `PUBLIC_API_URL`.** Behind
+  nginx the request's own host is the internal `127.0.0.1:8790`, which LINE
+  cannot reach (jtrax-backend `5990b20`, 2026-10-05).
 - **Check the Chat setting in LINE Official Account Manager.** LINE's own chat
   feature and the Messaging API webhook interact, and the behaviour has changed
   between versions of that console. Verify which events still reach the webhook
@@ -135,8 +145,9 @@ reload, reply, transport tagging, Thai.
       still takes 232px and every page overflows to 494px — `/students` measures
       identically, so this is pre-existing and shell-wide, not from this work.
       It contradicts [[jtrax-responsive-all-platforms]] and wants its own branch.
-- [ ] Set `LINE_TOKEN_KEY` on Render (`openssl rand -base64 32`) before this can
-      be configured in production.
+- [x] Set `LINE_TOKEN_KEY` and `PUBLIC_API_URL` on the Lightsail box —
+      done 2026-10-05; the channel is connected in production.
+      → [[jtrax-on-lightsail]]
 - [ ] Automated alerts over LINE — `notification_preference` has check-in,
       credit-expiry and announcement toggles with nothing behind them. Deferred
       deliberately: automated sends are what burn the message allowance.
