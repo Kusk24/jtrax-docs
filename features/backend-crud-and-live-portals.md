@@ -18,7 +18,9 @@ refactor). Architecture rationale: [[0004-sqlite-and-generic-crud-backend]].
 ## Backend surface
 
 - `POST /api/v1/auth/login|logout`, `GET|PATCH /api/v1/auth/me` (login is
-  rate-limited; passwords PBKDF2; opaque tokens in `auth_session`, 30-day TTL)
+  rate-limited; passwords PBKDF2; opaque tokens in `auth_session`, 30-day TTL — since 2026-10-15 a
+  14-day sliding idle window with a 90-day cap, see
+  [[sessions-slide-and-end-on-every-password-change]])
 - `/api/v1/<resource>` list/get/create/update/delete for all 21 ER entities,
   driven by the registry in `internal/api/registry.go` — per-verb role
   permissions, enum validation, and Parent/Student row scoping **in the
