@@ -1,7 +1,14 @@
 # Notifications — current state and plan
 
-**Date:** 2026-08-21 · **Updated:** 2026-09-05 · **Status:** backend backbone
+**Date:** 2026-08-21 · **Updated:** 2026-10-07 · **Status:** backend backbone
 **built** (step 1), frontends + push pending · **Repos:** all four
+
+> **2026-10-07 — both push send paths exist.** Phone push shipped in backend
+> #68 / mobile #30 ([[phone-catches-up-and-gets-push]]). Browser push — the
+> sender, the service worker and the parent's switch — shipped in backend #87
+> and web #97 ([[parents-get-notifications-in-the-browser]]); it needs VAPID
+> keys on the server before parents see the switch. The quotes below about push
+> being scaffolded or "zero" describe the state before that.
 
 > **2026-09-05 — the backbone landed.** `jtrax-backend` PR #45 built step 1 of
 > the build order below: the `notification` / `notification_delivery` /
