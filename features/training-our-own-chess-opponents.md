@@ -1,11 +1,14 @@
 # Training our own chess opponents
 
-**Date:** 2026-08-29 · **Updated:** 2026-09-05 · **Repos:** `jtrax-ai`
-(`Kusk24/jtrax-ai`, private) · **Status:** all three tiers
-trained, measured and
-exported to ONNX. Not yet wired into the Play screen.
+**Date:** 2026-08-29 · **Updated:** 2026-10-15 · **Repos:** `jtrax-ai`
+(`Kusk24/jtrax-ai`, private), `jtrax-web-app`, `jtrax-mobile-app` · **Status:**
+all three tiers trained, exported to ONNX and live in **Play with Robot** on web
+(jtrax-web-app#54) and phone (jtrax-mobile-app#11) — Beginner = novice,
+Intermediate = strong, Advanced = Stockfish. The two `.onnx` files and
+onnxruntime-web are served from S3, at the URL in `NEXT_PUBLIC_MODEL_BASE_URL` /
+`EXPO_PUBLIC_MODEL_BASE_URL`.
 
-The Play screen will offer three opponents instead of one. Students pick a
+The Play screen offers three opponents instead of one. Students pick a
 difficulty; each tier is a different model, not the same engine dialled down.
 
 | Tier | Model | Status |
@@ -302,7 +305,7 @@ hosted at a reachable URL and a simulator, and is the remaining step.
       with a dropdown entry and no extra model
 - [x] Export both models to ONNX and quantise — novice int8 26 MB, strong
       float16 47 MB (see above; int8 is not viable for Maia-2)
-- [ ] Wire the three difficulty options into the Play screen
+- [x] Wire the three difficulty options into the Play screen (web #54, mobile #11)
 - [x] `jtrax-ai/CLAUDE.md` rewritten 2026-09-05 to match what was built
 
 ## Not in scope
