@@ -38,6 +38,17 @@ The user asked for the four PDPA gaps to be built after the audit. The Act's sec
   - Policy rules stay **off until the academy sets a period**, in days, through `JTRAX_RETAIN_MEDICAL_NOTES_DAYS`, `JTRAX_RETAIN_PUBLIC_ENTRANT_DAYS`, `JTRAX_RETAIN_NOTIFICATION_DAYS` and `JTRAX_RETAIN_LINE_MESSAGE_DAYS`.
   - A typo or negative value keeps the data.
 
+- **Seen without opening each guardian** (admin #185). A red count on
+  **Parents** in the nav ("N families asked to be deleted"), a *Deletion
+  requested* badge on those families in the list, and a filter for them. It
+  refreshes every minute, when the tab comes back into view, and as soon as an
+  admin erases or declines.
+- **Erasing a child with a history works** (backend #122). Deleting a child used
+  to fail with a 409 if they had an ID-card read, a Lichess link, engine games
+  or chess-results rows. Those are now deleted or unlinked. An entry that
+  another player's game or a kept payment points at stays, anonymised as
+  "Former player". An erased guardian's consent records no longer name them.
+
 ## Decisions made along the way
 
 - **The parent-portal privacy tick is recorded but not enforced**, so families on older app builds aren't locked out. Consent is not the lawful basis for a parent entering their own child (contract is). The notice still has to be shown.
