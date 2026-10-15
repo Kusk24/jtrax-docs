@@ -66,6 +66,15 @@ Both apps driven at 390px in system Chrome, tabs and pushed screens:
 Mutation-checked: reverting `isRoot` to prefix matching fails five tests, each
 naming a pushed route.
 
+## The same rule, for the transition (2026-10-06)
+
+Tabs were still pushed: the bar's buttons were `<Link>`s, so a tab slid in
+from the right like a page, and an edge swipe went back to the previous tab.
+Mobile #62 makes a tab press reset the portal's stack to that tab with a short
+cross-fade, or pop back to it when the stack already rests on it. Pushed
+screens keep the native slide. The rule lives in
+`jtrax-mobile-app/src/lib/tab-navigation.ts`, tested beside `portal-tabs.ts`.
+
 ## Follow-ups
 
 - [ ] The parent portal still shows its bar on pushed screens

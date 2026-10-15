@@ -23,7 +23,7 @@ A parent on the phone now gets the same portal they get in a browser: announceme
 
 ## Follow-ups
 
-- [ ] Run it on the iOS simulator and a real phone before calling the port done.
+- [ ] Run it on the iOS simulator and a real phone before calling the port done. Simulator done 2026-10-06 in [[the-phone-matches-the-redesigned-portals]], which also found the tournament entry broken; real phone still to do.
 - [x] The greeting reads "Hi, Sandy !" with a space before the "!" — copied from web, where the string is the same. Fixed in web #73 and mobile #23 (opened 2026-09-20).
 
 Related: [[the-phone-catches-up-with-the-portal]], [[a-parent-pays-a-tournament-fee]], [[a-dropped-connection-signed-a-parent-out]], [[mobile-app-port]]
