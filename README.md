@@ -1,28 +1,20 @@
-# JTrax Docs
+# JTrax documentation vault
 
-Shared documentation vault for the JTrax project. Lives in its own repo (`jtrax-docs`)
-and is opened as part of the JTrax Obsidian vault.
+This repository holds the decisions, feature notes, and operating procedures shared by the JTrax school applications. Open the repository as an Obsidian vault to follow links between notes. Each application keeps its own setup and test instructions in its README.
 
-## When we write docs
-After a **major or otherwise notable change** — a shipped feature, a stack/architecture
-decision, an ops change. Not preemptively.
+## Find a note
 
-## Structure
-- `decisions/` — architecture decision records (ADRs), one file per decision: `NNNN-title.md`.
-- `architecture/` — system design and diagrams.
-- `api/` — API reference notes.
-- `meeting-notes/` — dated meeting notes.
+From the repository root, generate the local index with `python3 _workspace/reindex.py` and open `INDEX.md`. The index is generated locally and excluded from Git. On GitHub, browse the directories directly.
 
-## Keeping the shared repo conflict-free
-This vault is shared on GitHub, so we optimize for **no merge conflicts**:
+| Directory | Contents |
+| --- | --- |
+| [Architecture](architecture) and [decisions](decisions) | System design, alternatives considered, and the reasons behind accepted decisions |
+| [Features](features) and [bugs](bugs) | School workflows, implementation history, and known failure modes |
+| [Operations](ops) | Deployment, backups, recovery, and support procedures |
+| [Research](research) | Investigations and dated findings |
 
-1. **Additive by default** — one new file per change / decision / meeting. Avoid several
-   people editing the same file.
-2. **Pull before you write, push right after** (single-main): `git pull` → edit →
-   `git commit` → `git push`, then tell others to pull.
-3. **Per-user Obsidian state is gitignored** — `workspace.json`, `workspace-mobile.json`,
-   `cache`, `.trash/` change every session and are the top conflict source.
-4. Keep reformatting out of content commits.
+For production, start with the [Lightsail deployment](ops/jtrax-on-lightsail.md) and [Litestream restore procedure](ops/backups-with-litestream.md). For backend changes, see the [Gin and modular monolith decision](decisions/0009-gin-feature-packages.md).
 
-**Tip:** enable the Obsidian **Git** community plugin (auto-pull on open + auto-commit/push
-on a timer) so the pull-before-edit rhythm is automatic.
+## Contribute
+
+Pull the latest `main` before editing this shared vault. Update the existing note when a workflow changes. Use the [templates](_templates) for new notes, link related decisions, and regenerate the index after adding or renaming a note. Keep credentials, student records, generated indexes, and personal Obsidian state out of commits.
